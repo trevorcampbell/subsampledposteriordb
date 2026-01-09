@@ -13,6 +13,7 @@ parameters {
   real alpha;
   real beta1;
   real beta2;
+  real SUBIDX;
 }
 transformed parameters {
   vector[nyears] logit_p;
@@ -28,7 +29,12 @@ model {
   
   // Likelihood
   // Distribution for random part
-  C ~ binomial_logit(N, logit_p);
+  for (i in 1:nyears){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += nyears*binomial_logit_pmf(C[i] | N[i], logit_p[i]);
+  		break;
+  	}
+  }
 }
 generated quantities {
   array[nyears] real<lower=0, upper=1> p;

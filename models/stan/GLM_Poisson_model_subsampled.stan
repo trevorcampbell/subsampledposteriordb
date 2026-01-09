@@ -15,6 +15,7 @@ parameters {
   real<lower=-10, upper=10> beta1;
   real<lower=-10, upper=10> beta2;
   real<lower=-10, upper=10> beta3;
+  real SUBIDX;
 }
 transformed parameters {
   vector[n] log_lambda;
@@ -26,7 +27,12 @@ model {
   // Implicit uniform priors are used.
   
   // Likelihood
-  C ~ poisson_log(log_lambda);
+  for (i in 1:n){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += n*poisson_log_lpmf(C[i] | log_lambda[i]);
+  		break;
+  	}
+  }
 }
 generated quantities {
   vector[n] lambda;

@@ -13,6 +13,7 @@ parameters {
   vector[nsite] alpha; // Random site effects
   real mu_alpha;
   real<lower=0, upper=5> sd_alpha;
+  real SUBIDX;
 }
 transformed parameters {
   matrix[nyear, nsite] log_lambda;
@@ -26,7 +27,10 @@ model {
   //  sd_alpha ~ uniform(0, 5);  // Implicitly defined
   
   for (i in 1 : nobs) {
-    obs[i] ~ poisson_log(log_lambda[obsyear[i], obssite[i]]);
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+    	target += nobs*poisson_log_lpmf(obs[i] | log_lambda[obsyear[i], obssite[i]]);
+    	break;
+    }
   }
 }
 generated quantities {

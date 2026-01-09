@@ -17,6 +17,7 @@ parameters {
   real<lower=-10, upper=10> beta3;
   vector[n] eps; // Year effects
   real<lower=0, upper=5> sigma;
+  real SUBIDX;
 }
 transformed parameters {
   vector[n] log_lambda;
@@ -34,8 +35,13 @@ model {
   sigma ~ uniform(0, 5);
   
   // Likelihood
-  C ~ poisson_log(log_lambda);
-  eps ~ normal(0, sigma);
+  for (i in 1:n){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += n*poisson_log_lpmf(C[i] | log_lambda[i]);
+  		target += n*normal_lpdf(eps[i] | 0, sigma);
+  		break;
+  	}
+  }
 }
 generated quantities {
   vector<lower=0>[n] lambda;
