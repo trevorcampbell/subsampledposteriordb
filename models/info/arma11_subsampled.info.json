@@ -1,6 +1,7 @@
 {
-  "name": "arma11",
+  "name": "arma11_subsampled",
   "title": "Autoregressive Moving Average",
+  "subsample_size": "T",
   "description": "An ARMA(1, 1) time series model.",
   "keywords": "stan_benchmark",
   "references": null,
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/arma11.stan",
+      "model_code": "models/stan/arma11_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

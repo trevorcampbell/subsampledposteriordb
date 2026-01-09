@@ -43,6 +43,7 @@ parameters {
   vector[knots_sigma_1] zs_sigma_1_1;
   // standard deviations of the coefficients
   real<lower=0> sds_sigma_1_1;
+  real SUBIDX;
 }
 transformed parameters {
   // actual spline coefficients
@@ -71,7 +72,12 @@ model {
             - 1 * student_t_lccdf(0 | 3, 0, 36);
   // likelihood including all constants
   if (!prior_only) {
-    target += normal_lpdf(Y | mu, sigma);
+  	for (i in 1:N){
+  		if (i-0.5 <= SUBIDX && i + 0.5 >= SUBIDX){
+    		target += N*normal_lpdf(Y[i] | mu[i], sigma[i]);
+    		break;
+    	}
+    }
   }
 }
 generated quantities {

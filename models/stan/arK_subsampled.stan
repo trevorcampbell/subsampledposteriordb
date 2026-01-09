@@ -7,6 +7,7 @@ parameters {
   real alpha;
   array[K] real beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
   alpha ~ normal(0, 10);
@@ -14,14 +15,17 @@ model {
   sigma ~ cauchy(0, 2.5);
   
   for (t in (K + 1) : T) {
-    real mu;
-    mu = alpha;
-    
-    for (k in 1 : K) {
-      mu = mu + beta[k] * y[t - k];
+  	if (t - 0.5 <= SUBIDX && t + 0.5 >= SUBIDX){
+    	real mu;
+    	mu = alpha;
+    	
+    	for (k in 1 : K) {
+    	  mu = mu + beta[k] * y[t - k];
+    	}
+    	
+    	target += T*normal_lpdf(y[t] | mu, sigma);
+    	break;
     }
-    
-    y[t] ~ normal(mu, sigma);
   }
 }
 

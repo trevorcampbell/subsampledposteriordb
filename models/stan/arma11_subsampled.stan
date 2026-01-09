@@ -9,6 +9,7 @@ parameters {
   real phi; // autoregression coefficient
   real theta; // moving average coefficient
   real<lower=0> sigma; // noise scale
+  real SUBIDX;
 }
 model {
   vector[T] nu; // prediction for time t
@@ -26,7 +27,12 @@ model {
     err[t] = y[t] - nu[t];
   }
   
-  err ~ normal(0, sigma);
+  for (t in 1:T){
+  	if (t - 0.5 <= SUBIDX && t + 0.5 >= SUBIDX){
+  		target += T*normal_lpdf(err[t] | 0, sigma);
+  		break;
+  	}
+  }
 }
 
 

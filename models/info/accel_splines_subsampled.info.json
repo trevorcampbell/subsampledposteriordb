@@ -1,7 +1,8 @@
 {
-  "name": "accel_splines",
+  "name": "accel_splines_subsampled",
   "keywords": ["stan_benchmark", "spline"],
   "title": "Splines for time-series data with varying mean and std",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://github.com/bbbales2/cmdstan-warmup/blob/develop/examples/accel_splines/",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/accel_splines.stan",
+      "model_code": "models/stan/accel_splines_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

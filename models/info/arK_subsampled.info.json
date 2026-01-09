@@ -1,6 +1,7 @@
 {
-  "name": "arK",
+  "name": "arK_subsampled",
   "title": "Autoregressive-5 model",
+  "subsample_size": "T",
   "description": "An AR(5) time series model.",
   "keywords": ["time series", "stan_benchmark"],
   "urls": "https://github.com/stan-dev/stat_comp_benchmarks/tree/master/benchmarks/arK",
@@ -9,7 +10,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/arK.stan",
+      "model_code": "models/stan/arK_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

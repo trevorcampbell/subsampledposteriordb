@@ -10,7 +10,7 @@
   "urls": "https://github.com/bbbales2/cmdstan-warmup/blob/develop/examples/accel_gp/",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/accel_gp.stan",
+      "model_code": "models/stan/accel_gp_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
