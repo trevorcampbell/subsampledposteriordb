@@ -1,7 +1,8 @@
 {
-  "name": "garch11",
+  "name": "garch11_subsampled",
   "title": "Generalized Autoregressive Conditional Heteroscedastic Model",
   "description": "A GARCH(1, 1) time series model.",
+  "subsample_size": "T",
   "keywords": ["stan_benchmark", "time series"],
   "references": null,
   "urls": "https://github.com/stan-dev/stat_comp_benchmarks/tree/master/benchmarks/garch",
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/garch11.stan",
+      "model_code": "models/stan/garch11_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

@@ -1,7 +1,8 @@
 {
-  "name": "dugongs_model",
+  "name": "dugongs_model_subsampled",
   "keywords": ["nonlinear", "non-linear", "growth curve"],
   "title": "Dugong Age and Length",
+  "subsample_size": "N",
   "description": "Model of age and length data of dugongs using a nonlinear growth curve with no inflection point.",
   "urls": "https://github.com/stan-dev/example-models/tree/master/bugs_examples/vol2",
   "references": "mrc2winbugs",
@@ -9,7 +10,7 @@
   "added_date": "2021-07-15",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/dugongs_model.stan",
+      "model_code": "models/stan/dugongs_model_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

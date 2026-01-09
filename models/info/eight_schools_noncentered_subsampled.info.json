@@ -1,7 +1,8 @@
 {
-  "name": "eight_schools_noncentered",
+  "name": "eight_schools_noncentered_subsampled",
   "title": "A non-centered hiearchical model for 8 schools",
   "description": "A non-centered hiearchical model for the 8 schools example of Rubin (1981)",
+  "subsample_size": "J",
   "keywords": "hiearchical",
   "references": ["rubin1981estimation", "gelman2013bayesian"],
   "urls": "http://www.stat.columbia.edu/~gelman/arm/examples/schools",
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/eight_schools_noncentered.stan",
+      "model_code": "models/stan/eight_schools_noncentered_subsampled.stan",
       "stan_version": ">=2.26.0"
     },
     "pymc3": {

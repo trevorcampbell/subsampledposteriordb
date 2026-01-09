@@ -1,7 +1,8 @@
 {
-  "name": "earn_height",
+  "name": "earn_height_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "One Predictor Linear Model",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/earn_height.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/earn_height.stan",
+      "model_code": "models/stan/earn_height_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

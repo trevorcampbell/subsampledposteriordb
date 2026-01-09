@@ -8,6 +8,7 @@ parameters {
   real<lower=0> alpha0;
   real<lower=0, upper=1> alpha1;
   real<lower=0, upper=(1 - alpha1)> beta1;
+  real SUBIDX;
 }
 model {
   array[T] real sigma;
@@ -16,8 +17,12 @@ model {
     sigma[t] = sqrt(alpha0 + alpha1 * square(y[t - 1] - mu)
                     + beta1 * square(sigma[t - 1]));
   }
-  
-  y ~ normal(mu, sigma);
+  for (i in 1:T){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += T*normal_lpdf(y[i] | mu, sigma[i]);
+  		break;
+  	}
+  }
 }
 
 

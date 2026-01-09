@@ -8,6 +8,7 @@ parameters {
   real beta;
   real<lower=.5, upper=1> lambda; // orginal gamma in the JAGS example  
   real<lower=0> tau;
+  real SUBIDX;
 }
 transformed parameters {
   real sigma;
@@ -20,7 +21,12 @@ model {
   for (i in 1 : N) {
     m[i] = alpha - beta * pow(lambda, x[i]);
   }
-  Y ~ normal(m, sigma);
+  for (i in 1:N){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += N*normal_lpdf(Y[i] | m[i], sigma);
+  		break;
+  	}
+  }
   
   alpha ~ normal(0.0, 1000);
   beta ~ normal(0.0, 1000);

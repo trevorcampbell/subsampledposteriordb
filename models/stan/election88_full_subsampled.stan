@@ -27,6 +27,7 @@ parameters {
   real<lower=0, upper=100> sigma_c;
   real<lower=0, upper=100> sigma_d;
   real<lower=0, upper=100> sigma_e;
+  real SUBIDX;
 }
 transformed parameters {
   vector[N] y_hat;
@@ -45,7 +46,12 @@ model {
   d ~ normal(0, sigma_d);
   e ~ normal(0, sigma_e);
   beta ~ normal(0, 100);
-  y ~ bernoulli_logit(y_hat);
+  for (i in 1:N){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += N*bernoulli_logit_lpmf(y[i] | y_hat[i]);
+  		break;
+  	}
+  }
 }
 
 

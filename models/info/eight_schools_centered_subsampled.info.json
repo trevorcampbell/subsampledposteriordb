@@ -1,7 +1,8 @@
 {
-  "name": "eight_schools_centered",
+  "name": "eight_schools_centered_subsampled",
   "title": "A centered hiearchical model for 8 schools",
   "description": "A centered hiearchical model for the 8 schools example of Rubin (1981)",
+  "subsample_size": "J",
   "keywords": ["bda3_example", "hiearchical"],
   "references": ["rubin1981estimation", "gelman2013bayesian"],
   "urls": "http://www.stat.columbia.edu/~gelman/arm/examples/schools",
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/eight_schools_centered.stan",
+      "model_code": "models/stan/eight_schools_centered_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

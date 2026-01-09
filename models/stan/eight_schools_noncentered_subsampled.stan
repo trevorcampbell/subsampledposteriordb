@@ -7,6 +7,7 @@ parameters {
   vector[J] theta_trans; // transformation of theta
   real mu; // hyper-parameter of mean
   real<lower=0> tau; // hyper-parameter of sd
+  real SUBIDX;
 }
 transformed parameters {
   vector[J] theta;
@@ -14,10 +15,15 @@ transformed parameters {
   theta = theta_trans * tau + mu;
 }
 model {
-  theta_trans ~ normal(0, 1);
-  y ~ normal(theta, sigma);
   mu ~ normal(0, 5); // a non-informative prior
   tau ~ cauchy(0, 5);
+  for (i in 1:J){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += J*normal_lpdf(theta_trans[i] | 0, 1);
+  		target += J*normal_lpdf(y[i] | theta[i], sigma[i]);
+  		break;
+  	}
+  }
 }
 
 
