@@ -22,11 +22,13 @@ data {
 }
 parameters {
   array[nChild] real theta;
+  real SUBIDX;
 }
 model {
   array[nChild, nInd, 5] real p;
   array[nChild, nInd, 4] real Q;
   theta ~ normal(0.0, 36);
+  ii = 1;
   for (i in 1 : nChild) {
     // Probability of observing grade k given theta
     for (j in 1 : nInd) {
@@ -44,9 +46,10 @@ model {
       // has categorical distribution with varying dimension.
       // for missing grade[i, j] = -1, there is no log prob
       // contribution
-      if (grade[i, j] != -1) {
-        target += log(p[i, j, grade[i, j]]);
+      if (grade[i, j] != -1 && ii - 0.5 <= SUBIDX && ii + 0.5 >= SUBIDX) {
+        target += nChild*nInd*log(p[i, j, grade[i, j]]);
       }
+      ii += 1
     }
   }
 }

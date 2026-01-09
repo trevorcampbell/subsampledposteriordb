@@ -22,6 +22,7 @@ parameters {
   
   vector[N] theta; // heterogeneous effects
   vector[N] phi; // spatial effects
+  real SUBIDX;
 }
 transformed parameters {
   vector[N] convolved_re;
@@ -29,7 +30,12 @@ transformed parameters {
   convolved_re = sqrt(1 - rho) * theta + sqrt(rho / scaling_factor) * phi;
 }
 model {
-  y ~ poisson_log(log_E + beta0 + convolved_re * sigma);
+  for (i in 1:N){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += N*poisson_log_lpmf(y[i] | log_E[i] + beta0 + convolved_re[i]*sigma);
+  		break;
+  	}
+  }
   
   target += -0.5 * dot_self(phi[node1] - phi[node2]);
   

@@ -1,7 +1,8 @@
 {
-  "name": "bones_model",
+  "name": "bones_model_subsampled",
   "keywords": ["Latent Trait Model", "Latent Trait", "Categorical", "Skeletal"],
   "title": "Latent Trait Model for Multiple Ordered Categorical Responses ",
+  "subsample_size": "nChild*nInd",
   "description": "Model to predict skeletal age by calibrating 34 indicators of skeletal maturity.",
   "urls": ["https://github.com/stan-dev/example-models/tree/master/bugs_examples/vol1/bones", "http://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS_Vol1.pdf"],
   "references": "roche1975rwt",
@@ -9,7 +10,7 @@
   "added_date": "2021-07-06",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/bones_model.stan",
+      "model_code": "models/stan/bones_model_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

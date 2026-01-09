@@ -1,7 +1,8 @@
 {
-  "name": "blr",
+  "name": "blr_subsampled",
   "title": "A Bayesian linear regression model with vague priors",
   "description": "A Bayesian linear regression model with vague priors.",
+  "subsample_size": "N",
   "keywords": null,
   "references": null,
   "urls": null,
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/blr.stan",
+      "model_code": "models/stan/blr_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
