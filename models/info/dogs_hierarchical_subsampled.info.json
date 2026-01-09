@@ -1,7 +1,8 @@
 {
-  "name": "dogs_hierarchical",
+  "name": "dogs_hierarchical_subsampled",
   "keywords": ["ARM", "Ch. 24"],
   "title": "Hierarchical Logistic Mixed Effects Model",
+  "subsample_size": "n_dogs*n_trials",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -12,7 +13,7 @@
   "added_date": "2022-08-12",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/dogs_hierarchical.stan",
+      "model_code": "models/stan/dogs_hierarchical_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

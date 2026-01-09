@@ -21,12 +21,17 @@ transformed data {
 parameters {
   real<lower=0, upper=1> a;
   real<lower=0, upper=1> b;
+  real SUBIDX;
 }
 model {
+  int ii = 1;
   for (j in 1 : J) {
     for (t in 1 : T) {
-      real p = a ^ prev_shock[j, t] * b ^ prev_avoid[j, t];
-      y[j, t] ~ bernoulli(p);
+	  if (ii-0.5 <= SUBIDX && ii+0.5 >= SUBIDX){
+      	real p = a ^ prev_shock[j, t] * b ^ prev_avoid[j, t];
+      	target += n_dogs*n_trials*bernoulli_lpmf(y[j,t] | p);
+      }
+      ii += 1;
     }
   }
 }

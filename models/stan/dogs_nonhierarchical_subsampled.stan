@@ -22,6 +22,7 @@ parameters {
   vector<lower=0>[2] sigma_logit_ab;
   cholesky_factor_corr[2] L_logit_ab;
   matrix[J, 2] z;
+  real SUBIDX;
 }
 transformed parameters {
   matrix[J, 2] logit_ab = rep_vector(1, J) * mu_logit_ab'
@@ -33,10 +34,14 @@ transformed parameters {
   vector[J] b = inv_logit(logit_ab[ : , 2]);
 }
 model {
+  int ii = 1;
   for (j in 1 : J) {
     for (t in 1 : T) {
-      real p = a[j] ^ prev_shock[j, t] * b[j] ^ prev_avoid[j, t];
-      y[j, t] ~ bernoulli(p);
+      if (ii-0.5 <= SUBIDX && ii + 0.5 >= SUBIDX){
+        real p = a[j] ^ prev_shock[j, t] * b[j] ^ prev_avoid[j, t];
+        target += n_dogs*n_trials*bernoulli_lpmf(y[j, t] | p);
+      }
+      ii += 1;
     }
   }
   mu_logit_ab ~ logistic(0, 1);

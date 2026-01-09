@@ -5,6 +5,7 @@ data {
 }
 parameters {
   vector[2] beta;
+  real SUBIDX;
 }
 transformed parameters {
   matrix[n_dogs, n_trials] n_avoid;
@@ -26,9 +27,13 @@ transformed parameters {
 model {
   beta[1] ~ uniform(-100, 0);
   beta[2] ~ uniform(0, 100);
+  int ii = 1;
   for (i in 1 : n_dogs) {
     for (j in 1 : n_trials) {
-      y[i, j] ~ bernoulli(p[i, j]);
+      if (ii-0.5 <= SUBIDX && ii+0.5 >= SUBIDX){
+      	target += n_dogs*n_trials*bernoulli_lpmf(y[i,j] | p[i,j]);
+      }
+      ii += 1;
     }
   }
 }

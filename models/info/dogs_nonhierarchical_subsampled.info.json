@@ -1,6 +1,7 @@
 {
-  "name": "dogs_nonhierarchical",
+  "name": "dogs_nonhierarchical_subsampled",
   "keywords": ["ARM", "Ch. 24"],
+  "subsample_size": "n_dogs*n_trials",
   "title": "Non-Hierarchical Logistic Mixed Effects Model",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
@@ -12,7 +13,7 @@
   "added_date": "2022-08-12",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/dogs_nonhierarchical.stan",
+      "model_code": "models/stan/dogs_nonhierarchical_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
