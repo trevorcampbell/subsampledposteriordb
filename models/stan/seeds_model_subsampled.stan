@@ -16,6 +16,7 @@ parameters {
   real alpha2;
   real<lower=0> tau;
   vector[I] b;
+  real SUBIDX;
 }
 transformed parameters {
   real<lower=0> sigma;
@@ -28,9 +29,13 @@ model {
   alpha12 ~ normal(0.0, 1.0E3);
   tau ~ gamma(1.0E-3, 1.0E-3);
   
-  b ~ normal(0.0, sigma);
-  n ~ binomial_logit(N,
-                     alpha0 + alpha1 * x1 + alpha2 * x2 + alpha12 * x1x2 + b);
+  for (i in 1:I){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += I*normal_lpdf(b[i] | 0, sigma);
+  		target += I*binomial_logit_lpmf(n[i] | N[i], alpha0 + alpha1 * x1[i] + alpha2 * x2[i] + alpha12 * x1x2[i] + b[i]);
+  		break;
+  	}
+  }
 }
 
 
