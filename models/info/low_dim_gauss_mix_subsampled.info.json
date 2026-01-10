@@ -1,6 +1,7 @@
 {
-  "name": "low_dim_gauss_mix",
+  "name": "low_dim_gauss_mix_subsampled",
   "title": "A Two-Dimensional Gaussian Mixture Model",
+  "subsample_size": "N",
   "description": "A Two-Dimensional Gaussian Mixture Model",
   "keywords": ["stan_benchmark", "mixture model"],
   "references": null,
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/low_dim_gauss_mix.stan",
+      "model_code": "models/stan/low_dim_gauss_mix_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
