@@ -29,13 +29,20 @@ parameters {
   array[T] real alpha;
   vector[N] theta;
   real<lower=0> beta;
+  real SUBIDX;
 }
 model {
   alpha ~ normal(0, 100.);
   theta ~ normal(0, 1);
   beta ~ normal(0.0, 100.);
+  int ii = 1
   for (k in 1 : T) {
-    r[k] ~ bernoulli_logit(beta * theta - alpha[k] * ones);
+    for (n in 1: N) {
+      if (ii - 0.5 <= SUBIDX && ii + 0.5 >= SUBIDX){
+        target += N*T*bernoulli_logit_lpmf(r[k,n] | beta * theta[n] - alpha[k]);
+      }
+      ii += 1;
+    }
   }
 }
 generated quantities {
