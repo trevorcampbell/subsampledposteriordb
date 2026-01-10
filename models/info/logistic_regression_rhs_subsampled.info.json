@@ -1,7 +1,8 @@
 {
-  "name": "logistic_regression_rhs",
+  "name": "logistic_regression_rhs_subsampled",
   "keywords": ["stan_benchmark", "logistic regression"],
   "title": "Logistic Regression with Regularized Horseshoe Prior",
+  "subsample_size": "n",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/logistic_regression_rhs.stan",
+      "model_code": "models/stan/logistic_regression_rhs_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

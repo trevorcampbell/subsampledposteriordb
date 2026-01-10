@@ -17,6 +17,7 @@ parameters {
   real<lower=0> tau; // global shrinkage parameter
   vector<lower=0>[d] lambda; // local shrinkage parameter
   real<lower=0> caux;
+  real SUBIDX;
 }
 transformed parameters {
   vector[d] beta; // regression coefficients
@@ -36,7 +37,10 @@ model {
   caux ~ inv_gamma(0.5 * slab_df, 0.5 * slab_df);
   beta0 ~ normal(0, scale_icept);
   
-  y ~ bernoulli_logit_glm(x, beta0, beta);
+  for (i in 1:n){
+        target += n*bernoulli_logit_glm_lpmf({y[i]} | [x[i]], beta0, beta);
+        break;
+  }
 }
 generated quantities {
   vector[n] f = beta0 + x * beta;
