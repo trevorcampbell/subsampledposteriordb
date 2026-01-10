@@ -9,9 +9,15 @@ transformed data {
 parameters {
   real alpha;
   vector[1] beta;
+  real SUBIDX;
 }
 model {
-  vote ~ bernoulli_logit_glm(x, alpha, beta);
+  for (n in 1:N){
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N*bernoulli_logit_glm_lpdf(vote[n] | x[n,:], alpha, beta);
+      break;
+    }
+  }
 }
 
 

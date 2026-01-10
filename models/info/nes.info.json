@@ -1,7 +1,8 @@
 {
-  "name": "nes",
+  "name": "nes_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "Multiple Predictor Linear Model",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/nes.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/nes.stan",
+      "model_code": "models/stan/nes_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

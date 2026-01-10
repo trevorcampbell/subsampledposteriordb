@@ -22,13 +22,19 @@ transformed data {
 parameters {
   vector[9] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
   // vectorization
-  partyid7 ~ normal(beta[1] + beta[2] * real_ideo + beta[3] * race_adj
-                    + beta[4] * age30_44 + beta[5] * age45_64
-                    + beta[6] * age65up + beta[7] * educ1 + beta[8] * gender
-                    + beta[9] * income, sigma);
+  for (n in 1:N){
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N*normal_lpdf(partyid7[n] | beta[1] + beta[2] * real_ideo[n] + beta[3] * race_adj[n]
+                    + beta[4] * age30_44[n] + beta[5] * age45_64[n]
+                    + beta[6] * age65up[n] + beta[7] * educ1[n] + beta[8] * gender[n]
+                    + beta[9] * income[n], sigma);
+      break;
+    }
+  }
 }
 
 
