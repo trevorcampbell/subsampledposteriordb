@@ -1,7 +1,8 @@
 {
-  "name": "logearn_height_male",
+  "name": "logearn_height_male_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "Multiple Predictors Log-linear Model",
+  "subsample_size":"N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/logearn_height_male.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/logearn_height_male.stan",
+      "model_code": "models/stan/logearn_height_male_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

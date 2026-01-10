@@ -1,7 +1,8 @@
 {
-  "name": "logearn_height",
+  "name": "logearn_height_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "One Predictor Log-linear Model",
+  "subsample_size":"N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/logearn_height.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/logearn_height.stan",
+      "model_code": "models/stan/logearn_height_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

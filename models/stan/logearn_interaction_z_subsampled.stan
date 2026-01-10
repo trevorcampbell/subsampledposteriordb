@@ -15,10 +15,16 @@ transformed data {
 parameters {
   vector[4] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
-  log_earn ~ normal(beta[1] + beta[2] * z_height + beta[3] * male
-                    + beta[4] * inter, sigma);
+  for (i in 1:N){
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      target += N*normal_lpdf(log_earn[i] | beta[1] + beta[2] * z_height[i] + beta[3] * male[i]
+                    + beta[4] * inter[i], sigma);
+      break;
+    }
+  }
 }
 
 

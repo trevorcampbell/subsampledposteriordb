@@ -2,7 +2,6 @@ data {
   int<lower=0> N;
   vector[N] earn;
   vector[N] height;
-  vector[N] male;
 }
 transformed data {
   // log transformation
@@ -10,11 +9,17 @@ transformed data {
   log_earn = log(earn);
 }
 parameters {
-  vector[3] beta;
+  vector[2] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
-  log_earn ~ normal(beta[1] + beta[2] * height + beta[3] * male, sigma);
+  for (i in 1:N){
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      target += N*normal_lpdf(log_earn[i] | beta[1] + beta[2] * height[i], sigma);
+      break;
+    }
+  }
 }
 
 

@@ -1,7 +1,8 @@
 {
-  "name": "logearn_interaction",
+  "name": "logearn_interaction_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "Multiple Predictors Interacting Log-linear Model",
+  "subsample_size":"N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/logearn_interaction.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/logearn_interaction.stan",
+      "model_code": "models/stan/logearn_interaction_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
