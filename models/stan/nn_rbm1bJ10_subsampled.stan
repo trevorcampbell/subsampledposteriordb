@@ -24,6 +24,7 @@ parameters {
   matrix[J, K - 1] beta;
   row_vector[J] alpha1;
   row_vector[K - 1] beta1;
+  real SUBIDX;
 }
 model {
   matrix[N, K] v = append_col(ones,
@@ -40,7 +41,10 @@ model {
   to_vector(alpha) ~ normal(0, sqrt(sigma2_alpha));
   to_vector(beta) ~ normal(0, sqrt(sigma2_beta));
   for (n in 1 : N) {
-    y[n] ~ categorical_logit(v[n]');
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N*categorical_logit_lpmf(y[n] | v[n]');
+      break;
+    }
   }
 }
 
