@@ -11,6 +11,7 @@ data {
 parameters {
   vector[7] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
   for (n in 1:N){

@@ -10,8 +10,8 @@ parameters {
   vector[n] seasonal;
   real beta;
   real lambda;
-  
   positive_ordered[3] sigma;
+  real SUBIDX;
 }
 transformed parameters {
   vector[n] yhat;
@@ -26,7 +26,12 @@ model {
     mu[t] ~ normal(mu[t - 1], sigma[2]);
   }
   
-  y ~ normal(yhat + seasonal, sigma[3]);
+  for (i in 1:n){
+    for (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      target += n*normal_lpdf(y[i] | yhat[i] + seasonal[i], sigma[3]);
+      break;
+    }
+  }
   
   sigma ~ student_t(4, 0, 1);
 }

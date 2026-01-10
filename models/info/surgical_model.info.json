@@ -1,7 +1,8 @@
 {
-  "name": "surgical_model",
+  "name": "surgical_model_subsampled",
   "keywords": ["Random Effects", "Random"],
   "title": "Random Effects Model to Rank Hospitals on True Failure Probability",
+  "subsample_size":"N",
   "description": "Random effects model assuming the probabilities of failure over hospitals are similar in some way.",
   "urls": "https://github.com/stan-dev/example-models/tree/master/bugs_examples/vol1/surgical",
   "references": "mrc1winbugs",
@@ -9,7 +10,7 @@
   "added_date": "2021-07-08",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/surgical_model.stan",
+      "model_code": "models/stan/surgical_model_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

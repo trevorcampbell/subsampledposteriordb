@@ -38,6 +38,7 @@ parameters {
   real<lower=0> gamma;
   real<lower=0> xi;
   real<lower=0> delta;
+  real SUBIDX;
 }
 transformed parameters {
   array[N_t, 4] real<lower=0> y;
@@ -52,9 +53,14 @@ model {
   xi ~ cauchy(0, 25);
   delta ~ cauchy(0, 1);
   
-  stoi_hat[1] ~ poisson(y0[1] - y[1, 1]);
+  if (0.5 <= SUBIDX && 1.5 >= SUBIDX){
+    target += N_t*poisson_lpmf(stoi_hat[1] | y0[1] - y[1,1]);
+  }
   for (n in 2 : N_t) {
-    stoi_hat[n] ~ poisson(y[n - 1, 1] - y[n, 1]);
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N_t*poisson_lpmf(stoi_hat[n] | y[n - 1, 1] - y[n, 1]);
+      break;
+    }
   }
   
   B_hat ~ lognormal(log(col(to_matrix(y), 4)), 0.15);

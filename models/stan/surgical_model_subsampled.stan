@@ -7,6 +7,7 @@ parameters {
   real mu;
   real<lower=0> sigmasq;
   array[N] real b;
+  real SUBIDX;
 }
 transformed parameters {
   real<lower=0> sigma;
@@ -20,7 +21,12 @@ model {
   mu ~ normal(0.0, 1000.0);
   sigmasq ~ inv_gamma(0.001, 0.001);
   b ~ normal(mu, sigma);
-  r ~ binomial_logit(n, b);
+  for (i in 1:N){
+    if (i - 0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      target += N*binomial_logit_lpmf(r[i]| n[i], b[i]);
+      break;
+    }
+  }
 }
 generated quantities {
   real pop_mean;

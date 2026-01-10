@@ -119,6 +119,8 @@ parameters {
   real<lower=0, upper=1> gamma; // partitioning coefficient
   
   real<lower=0> sigma; // observation std dev
+  
+  real SUBIDX;
 }
 transformed parameters {
   array[N_t] real eCO2_hat;
@@ -136,7 +138,10 @@ model {
   
   // likelihood
   for (t in 1 : N_t) {
-    eCO2mean[t] ~ normal(eCO2_hat[t], sigma);
+    if (t-0.5 <= SUBIDX && t+0.5 >= SUBIDX){
+      target += N_t*normal_lpdf(eCO2mean[t] | eCO2_hat[t], sigma);
+      break;
+    }
   } // normal error
 }
 

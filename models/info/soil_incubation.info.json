@@ -1,7 +1,8 @@
 {
-  "name": "soil_incubation",
+  "name": "soil_incubation_subsampled",
   "keywords": ["time_series", "stan_examples"],
   "title": "Two Pool Linear Model with Feedback",
+  "subsample_size":"N_t",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://github.com/stan-dev/example-models/blob/master/knitr/soil-carbon/soil_incubation.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/soil_incubation.stan",
+      "model_code": "models/stan/soil_incubation_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
