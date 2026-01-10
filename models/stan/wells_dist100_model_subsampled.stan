@@ -11,9 +11,15 @@ transformed data {
 parameters {
   real alpha;
   vector[1] beta;
+  real SUBIDX;
 }
 model {
-  switched ~ bernoulli_logit_glm(x, alpha, beta);
+  for (i in 1:N){
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+    	target += N*bernoulli_logit_glm_lpmf(switched[i] | x[i, :], alpha, beta);
+    	break;
+    } 
+  }
 }
 
 
