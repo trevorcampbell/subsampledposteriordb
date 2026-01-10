@@ -1,8 +1,8 @@
 functions {
-  real rsm(int y, real theta, real beta, vector kappa) {
-    vector[rows(kappa) + 1] unsummed;
-    vector[rows(kappa) + 1] probs;
-    unsummed = append_row(rep_vector(0, 1), theta - beta - kappa);
+  real pcm(int y, real theta, vector beta) {
+    vector[rows(beta) + 1] unsummed;
+    vector[rows(beta) + 1] probs;
+    unsummed = append_row(rep_vector(0.0, 1), theta - beta);
     probs = softmax(cumulative_sum(unsummed));
     return categorical_lpmf(y + 1 | probs);
   }
@@ -42,15 +42,25 @@ data {
   int<lower=1> N; // # responses
   array[N] int<lower=1, upper=I> ii; // i for n
   array[N] int<lower=1, upper=J> jj; // j for n
-  array[N] int<lower=0> y; // response for n; y in {0 ... m_i}
+  array[N] int<lower=0> y; // response for n; y = 0, 1 ... m_i
   int<lower=1> K; // # person covariates
   matrix[J, K] W; // person covariate matrix
 }
 transformed data {
-  int m; // # steps
+  array[I] int m; // # parameters per item
+  array[I] int pos; // first position in beta vector for item
   matrix[2, K] adj; // values for centering and scaling covariates
   matrix[J, K] W_adj; // centered and scaled covariates
-  m = max(y);
+  m = rep_array(0, I);
+  for (n in 1 : N) {
+    if (y[n] > m[ii[n]]) {
+      m[ii[n]] = y[n];
+    }
+  }
+  pos[1] = 1;
+  for (i in 2 : I) {
+    pos[i] = m[i - 1] + pos[i - 1];
+  }
   adj = obtain_adjustments(W);
   for (k in 1 : K) {
     for (j in 1 : J) {
@@ -60,33 +70,33 @@ transformed data {
 }
 parameters {
   vector<lower=0>[I] alpha;
-  vector[I - 1] beta_free;
-  vector[m - 1] kappa_free;
+  vector[sum(m) - 1] beta_free;
   vector[J] theta;
   vector[K] lambda_adj;
+  real SUBIDX;
 }
 transformed parameters {
-  vector[I] beta;
-  vector[m] kappa;
-  beta = append_row(beta_free, rep_vector(-1 * sum(beta_free), 1));
-  kappa = append_row(kappa_free, rep_vector(-1 * sum(kappa_free), 1));
+  vector[sum(m)] beta;
+  beta[1 : sum(m) - 1] = beta_free;
+  beta[sum(m)] = -1 * sum(beta_free);
 }
 model {
   alpha ~ lognormal(1, 1);
   target += normal_lpdf(beta | 0, 3);
-  target += normal_lpdf(kappa | 0, 3);
   theta ~ normal(W_adj * lambda_adj, 1);
   lambda_adj ~ student_t(3, 0, 1);
   for (n in 1 : N) {
-    target += rsm(y[n], theta[jj[n]] .* alpha[ii[n]], beta[ii[n]], kappa);
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+    	target += N*pcm(y[n], theta[jj[n]] .* alpha[ii[n]], segment(beta, pos[ii[n]], m[ii[n]]));
+    	break;
+    }
   }
 }
 generated quantities {
-  // This part is currently not working
-  //  vector[K] lambda;
-  //  lambda[2 : K] = lambda_adj[2 : K] ./ to_vector(adj[2, 2 : K]);
-  //  lambda[1] = W_adj[1, 1 : K] * lambda_adj[1 : K]
-  //              - W[1, 2 : K] * lambda[2 : K];
+  vector[K] lambda;
+  lambda[2 : K] = lambda_adj[2 : K] ./ to_vector(adj[2, 2 : K]);
+  lambda[1] = W_adj[1, 1 : K] * lambda_adj[1 : K]
+              - W[1, 2 : K] * lambda[2 : K];
 }
 
 

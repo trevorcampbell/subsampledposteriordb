@@ -7,6 +7,7 @@ parameters {
   real<lower=0> rho;
   real<lower=0> alpha;
   vector[N] f_tilde;
+  real SUBIDX;
 }
 transformed parameters {
   vector[N] f;
@@ -22,7 +23,12 @@ model {
   alpha ~ normal(0, 2);
   f_tilde ~ normal(0, 1);
   
-  k ~ poisson_log(f);
+  for (n in 1:N){
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+  		target += N*poisson_log_lpmf(k[n] | f[n]);
+  		break;
+  	}
+  }
 }
 
 

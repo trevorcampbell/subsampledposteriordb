@@ -1,6 +1,7 @@
 {
-  "name": "gp_pois_regr",
+  "name": "gp_pois_regr_subsampled",
   "title": "Gaussian Process Poisson Regression",
+  "subsample_size":"N",
   "description": "Poisson regression with a one-dimensional latent Gaussian process \nusing the exponential quadratic covariance function.",
   "keywords": ["stan_benchmark", "gaussian process"],
   "references": null,
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/gp_pois_regr.stan",
+      "model_code": "models/stan/gp_pois_regr_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
