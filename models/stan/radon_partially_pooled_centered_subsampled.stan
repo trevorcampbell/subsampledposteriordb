@@ -9,6 +9,7 @@ parameters {
   real mu_alpha;
   real<lower=0> sigma_alpha;
   real<lower=0> sigma_y;
+  real SUBIDX;
 }
 model {
   vector[N] mu;
@@ -21,8 +22,11 @@ model {
   // likelihood
   alpha ~ normal(mu_alpha, sigma_alpha);
   for (n in 1 : N) {
-    mu[n] = alpha[county_idx[n]];
-    target += normal_lpdf(log_radon[n] | mu[n], sigma_y);
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+    	mu[n] = alpha[county_idx[n]];
+    	target += N*normal_lpdf(log_radon[n] | mu[n], sigma_y);
+    	break;
+    }
   }
 }
 

@@ -11,6 +11,7 @@ parameters {
   real mu_beta;
   real<lower=0> sigma_beta;
   real<lower=0> sigma_y;
+  real SUBIDX;
 }
 transformed parameters {
   vector[J] beta;
@@ -27,8 +28,11 @@ model {
   beta_raw ~ normal(0, 1);
   
   for (n in 1 : N) {
-    mu[n] = alpha + floor_measure[n] * beta[county_idx[n]];
-    target += normal_lpdf(log_radon[n] | mu[n], sigma_y);
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+    	mu[n] = alpha + floor_measure[n] * beta[county_idx[n]];
+    	target += N*normal_lpdf(log_radon[n] | mu[n], sigma_y);
+    	break;
+    }
   }
 }
 

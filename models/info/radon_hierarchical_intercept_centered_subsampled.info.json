@@ -1,7 +1,8 @@
 {
-  "name": "radon_hierarchical_intercept_centered",
+  "name": "radon_hierarchical_intercept_centered_subsampled",
   "keywords": "radon",
   "title": "A county intercept model with county level covariate for the Radon dataset",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://mc-stan.org/users/documentation/case-studies/radon.html",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/radon_hierarchical_intercept_centered.stan",
+      "model_code": "models/stan/radon_hierarchical_intercept_centered_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

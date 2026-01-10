@@ -13,6 +13,7 @@ parameters {
   vector[J] beta_raw;
   real mu_alpha;
   real mu_beta;
+  real SUBIDX;
 }
 transformed parameters {
   vector[J] alpha;
@@ -35,8 +36,11 @@ model {
   
   // Likelihood
   for (n in 1 : N) {
-    mu[n] = alpha[county_idx[n]] + floor_measure[n] * beta[county_idx[n]];
-    target += normal_lpdf(log_radon[n] | mu[n], sigma_y);
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+    	mu[n] = alpha[county_idx[n]] + floor_measure[n] * beta[county_idx[n]];
+    	target += N*normal_lpdf(log_radon[n] | mu[n], sigma_y);
+    	break;
+    }
   }
 }
 

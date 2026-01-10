@@ -13,6 +13,7 @@ parameters {
   vector[J] beta;
   real mu_alpha;
   real mu_beta;
+  real SUBIDX;
 }
 model {
   vector[N] mu;
@@ -26,8 +27,11 @@ model {
   alpha ~ normal(mu_alpha, sigma_alpha);
   beta ~ normal(mu_beta, sigma_beta);
   for (n in 1 : N) {
-    mu[n] = alpha[county_idx[n]] + floor_measure[n] * beta[county_idx[n]];
-    target += normal_lpdf(log_radon[n] | mu[n], sigma_y);
+  	if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+    	mu[n] = alpha[county_idx[n]] + floor_measure[n] * beta[county_idx[n]];
+    	target += N*normal_lpdf(log_radon[n] | mu[n], sigma_y);
+    	break;
+    }
   }
 }
 
