@@ -13,6 +13,7 @@ parameters {
   real mu_b;
   real<lower=0> sigma_b;
   vector[I] b;
+  real SUBIDX;
 }
 model {
   sigma_theta ~ cauchy(0, 2);
@@ -25,8 +26,14 @@ model {
   sigma_b ~ cauchy(0, 2);
   b ~ normal(mu_b, sigma_b);
   
+  int ii = 1;
   for (i in 1 : I) {
-    y[i] ~ bernoulli_logit(a[i] * (theta - b[i]));
+    for (j in 1 : J){
+        if (ii-0.5 <= SUBIDX && ii+0.5 >= SUBIDX){
+           target += I*J*bernoulli_logit_lpmf(y[i,j] | a[i]*(theta[j] - b[i]));
+        }
+        ii += 1;
+    }
   }
 }
 

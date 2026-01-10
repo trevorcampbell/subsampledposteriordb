@@ -1,6 +1,7 @@
 {
-  "name": "irt_2pl",
+  "name": "irt_2pl_subsampled",
   "title": "Two Parameter Logistic Item Response Theory Model",
+  "subsample_size": "I*J",
   "description": "Hierarchical item response theory model.",
   "keywords": ["stan_benchmark", "hiearchical"],
   "references": null,
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/irt_2pl.stan",
+      "model_code": "models/stan/irt_2pl_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
