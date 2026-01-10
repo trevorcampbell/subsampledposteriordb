@@ -1,7 +1,8 @@
 {
-  "name": "lotka_volterra",
+  "name": "lotka_volterra_subsampled",
   "keywords": ["mechanistic", "stan_examples"],
   "title": "Lotka-Volterra Error Model",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/knitr/lotka-volterra/lotka-volterra.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/lotka_volterra.stan",
+      "model_code": "models/stan/lotka_volterra_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

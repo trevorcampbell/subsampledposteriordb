@@ -28,6 +28,7 @@ parameters {
   array[4] real<lower=0> theta; // { alpha, beta, gamma, delta }
   array[2] real<lower=0> z_init; // initial population
   array[2] real<lower=0> sigma; // measurement errors
+  real SUBIDX;
 }
 transformed parameters {
   array[N, 2] real z = integrate_ode_rk45(dz_dt, z_init, 0, ts, theta,
@@ -41,7 +42,12 @@ model {
   z_init ~ lognormal(log(10), 1);
   for (k in 1 : 2) {
     y_init[k] ~ lognormal(log(z_init[k]), sigma[k]);
-    y[ : , k] ~ lognormal(log(z[ : , k]), sigma[k]);
+    for (n in 1:N){
+      if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+          target += N*lognormal_lpdf(y[n,k] | log(z[n , k]), sigma[k]);
+          break;
+      }
+    }
   }
 }
 generated quantities {
