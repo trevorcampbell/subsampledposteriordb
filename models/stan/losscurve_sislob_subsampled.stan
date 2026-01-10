@@ -35,6 +35,7 @@ parameters {
   real<lower=0> sd_LR;
   
   real<lower=0> loss_sd;
+  real SUBIDX;
 }
 transformed parameters {
   vector[n_time] gf;
@@ -61,7 +62,12 @@ model {
   omega ~ lognormal(0, 0.5);
   theta ~ lognormal(0, 0.5);
   
-  loss ~ normal(lm, (loss_sd * premium)[cohort_id]);
+  for (n in 1:n_data){
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += n_data*normal_lpdf(loss[n] | lm[n], (loss_sd * premium)[cohort_id[n]]);
+      break;
+    }
+  }
 }
 generated quantities {
   array[n_cohort] vector<lower=0>[n_time] loss_sample;
