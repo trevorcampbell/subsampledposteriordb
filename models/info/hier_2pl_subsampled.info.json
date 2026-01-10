@@ -1,7 +1,8 @@
 {
-  "name": "hier_2pl",
+  "name": "hier_2pl_subsampled",
   "keywords": ["item_response_theory", "hierarchical", "stan_examples"],
   "title": "Hierarchical Two-Parameter Logistic Item Response Model",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://mc-stan.org/users/documentation/case-studies/hierarchical_2pl.html",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/hier_2pl.stan",
+      "model_code": "models/stan/hier_2pl_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

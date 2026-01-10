@@ -36,6 +36,7 @@ parameters {
   real<lower=0> length_GP_state_long;
   real<lower=0> length_GP_region_short;
   real<lower=0> length_GP_state_short;
+  real SUBIDX;
 }
 transformed parameters {
   matrix[N_years, N_regions] GP_region;
@@ -103,12 +104,15 @@ model {
   vector[N] obs_mu;
   
   for (n in 1 : N) {
-    obs_mu[n] = mu + year_re[year_ind[n]] + state_re[state_ind[n]]
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      obs_mu[n] = mu + year_re[year_ind[n]] + state_re[state_ind[n]]
                 + region_re[region_ind[n]]
                 + GP_region[year_ind[n], region_ind[n]]
                 + GP_state[year_ind[n], state_ind[n]];
+      target += N*normal_lpdf(y[n] | obs_mu[n], sigma_error_state_2);
+      break;
+    }
   }
-  y ~ normal(obs_mu, sigma_error_state_2); //* turnout_weight);
   
   to_vector(GP_region_std) ~ normal(0, 1);
   to_vector(GP_state_std) ~ normal(0, 1);

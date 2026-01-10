@@ -13,6 +13,7 @@ parameters {
   vector[2] mu; // vector for alpha/beta means
   vector<lower=0>[2] tau; // vector for alpha/beta residual sds
   cholesky_factor_corr[2] L_Omega;
+  real SUBIDX;
 }
 transformed parameters {
   vector[I] alpha;
@@ -37,7 +38,12 @@ model {
   tau[1] ~ exponential(.1);
   mu[2] ~ normal(0, 5);
   tau[2] ~ exponential(.1);
-  y ~ bernoulli_logit(alpha[ii] .* (theta[jj] - beta[ii]));
+  for (n in 1:N){
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+        target += N*bernoulli_logit_lpmf(y[n] | alpha[ii[n]] * (theta[jj[n]] - beta[ii[n]]));
+        break;
+    }
+  }
 }
 generated quantities {
   corr_matrix[2] Omega;
