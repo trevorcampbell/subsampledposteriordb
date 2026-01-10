@@ -1,6 +1,7 @@
 {
-  "name": "ldaK5",
+  "name": "ldaK5_subsampled",
   "title": "LDA with 5 topics",
+  "subsample_size": "N",
   "description": "Latent Dirichlet Allocation (LDA) with token indicators marginalized out.",
   "keywords": "mixed_membership",
   "references": "blei2003latent",
@@ -10,7 +11,7 @@
   },
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/ldaK5.stan",
+      "model_code": "models/stan/ldaK5_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

@@ -19,6 +19,7 @@ transformed data {
 parameters {
   array[M] simplex[K] theta; // topic dist for doc m
   array[K] simplex[V] phi; // word dist for topic k
+  real SUBIDX;
 }
 model {
   for (m in 1 : M) {
@@ -28,11 +29,14 @@ model {
     phi[k] ~ dirichlet(beta);
   } // prior
   for (n in 1 : N) {
-    array[K] real gamma;
-    for (k in 1 : K) {
-      gamma[k] = log(theta[doc[n], k]) + log(phi[k, w[n]]);
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      array[K] real gamma;
+      for (k in 1 : K) {
+        gamma[k] = log(theta[doc[n], k]) + log(phi[k, w[n]]);
+      }
+      target += N*log_sum_exp(gamma); // likelihood;
+      break;
     }
-    target += log_sum_exp(gamma); // likelihood;
   }
 }
 
