@@ -1,7 +1,8 @@
 {
-  "name": "normal_mixture",
+  "name": "normal_mixture_subsampled",
   "keywords": ["basic_estimators", "stan_examples"],
   "title": "Two Component Gaussian Mixture Model",
+  "subsample_size": "N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/basic_estimators/normal_mixture.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/normal_mixture.stan",
+      "model_code": "models/stan/normal_mixture_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

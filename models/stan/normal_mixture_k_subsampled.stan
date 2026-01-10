@@ -7,6 +7,7 @@ parameters {
   simplex[K] theta;
   array[K] real mu;
   array[K] real<lower=0, upper=10> sigma;
+  real SUBIDX;
 }
 model {
   array[K] real ps;
@@ -15,7 +16,10 @@ model {
     for (k in 1 : K) {
       ps[k] = log(theta[k]) + normal_lpdf(y[n] | mu[k], sigma[k]);
     }
-    target += log_sum_exp(ps);
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N*log_sum_exp(ps);
+      break;
+    }
   }
 }
 
