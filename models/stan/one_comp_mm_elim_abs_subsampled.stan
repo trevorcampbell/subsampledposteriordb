@@ -46,6 +46,7 @@ parameters {
   real<lower=0> K_m; // Michaelis-Menten constant in mg/L
   real<lower=0> V_m; // Maximum elimination rate in 1/day
   real<lower=0> sigma;
+  real SUBIDX;
 }
 transformed parameters {
   array[N_t, 1] real C;
@@ -64,7 +65,10 @@ model {
   
   // Likelihood
   for (n in 1 : N_t) {
-    C_hat[n] ~ lognormal(log(C[n, 1]), sigma);
+    if (n -0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+      target += N_t*lognormal_lpdf(C_hat[n] | log(C[n, 1]), sigma);
+      break;
+    }
   }
 }
 generated quantities {

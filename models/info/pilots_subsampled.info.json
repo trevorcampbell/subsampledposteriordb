@@ -1,7 +1,8 @@
 {
-  "name": "pilots",
+  "name": "pilots_subsampled",
   "keywords": ["ARM", "Ch. 14", "stan_examples"],
   "title": "Linear Mixed Effects Model",
+  "subsample_size":"N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.14/pilots.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/pilots.stan",
+      "model_code": "models/stan/pilots_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
