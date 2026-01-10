@@ -25,13 +25,19 @@ transformed data {
 parameters {
   vector[7] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
-  log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume
-                      + beta[3] * log_canopy_area
-                      + beta[4] * log_canopy_shape
-                      + beta[5] * log_total_height + beta[6] * log_density
-                      + beta[7] * group, sigma);
+  for (i in 1:N){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += N*normal_lpdf(log_weight[i] | beta[1] + beta[2] * log_canopy_volume[i]
+                      + beta[3] * log_canopy_area[i]
+                      + beta[4] * log_canopy_shape[i]
+                      + beta[5] * log_total_height[i] + beta[6] * log_density[i]
+                      + beta[7] * group[i] , sigma);
+  		break;
+  	}
+  }
 }
 
 

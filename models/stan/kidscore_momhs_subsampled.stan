@@ -6,10 +6,16 @@ data {
 parameters {
   vector[2] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
   sigma ~ cauchy(0, 2.5);
-  kid_score ~ normal(beta[1] + beta[2] * mom_hs, sigma);
+  for (i in 1:N){
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+    	target += N*normal_lpdf(kid_score[i] | beta[1] + beta[2] * mom_hs[i], sigma);
+    	break;
+    }
+  }
 }
 
 

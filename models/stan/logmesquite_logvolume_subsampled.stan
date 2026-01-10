@@ -14,9 +14,15 @@ transformed data {
 parameters {
   vector[2] beta;
   real<lower=0> sigma;
+  real SUBIDX;
 }
 model {
-  log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume, sigma);
+  for (i in 1:N){
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+  		target += N*normal_lpdf(log_weight[i] | beta[1] + beta[2] * log_canopy_volume[i], sigma);
+  		break;
+  	}
+  }
 }
 
 

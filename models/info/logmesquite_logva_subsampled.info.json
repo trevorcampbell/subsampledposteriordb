@@ -1,7 +1,8 @@
 {
-  "name": "logmesquite_logva",
+  "name": "logmesquite_logva_subsampled",
   "keywords": ["ARM", "Ch. 4", "stan_examples"],
   "title": "Log-Log Model",
+  "subsample_size":"N",
   "prior": {
     "keywords": "stan_recommended_35dbfe6"
   },
@@ -9,7 +10,7 @@
   "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/mesquite_va.stan",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/logmesquite_logva.stan",
+      "model_code": "models/stan/logmesquite_logva_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },
