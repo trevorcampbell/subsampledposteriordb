@@ -1,7 +1,8 @@
 {
-  "name": "M0_model",
+  "name": "M0_model_subsampled",
   "keywords": ["BPA", "Ch.6", "Population", "Capture", "Recapture", "Individual", "Constant"],
   "title": "Inferring population size with constant detection probability",
+  "subsample_size":"M",
   "description": "Detection probability of an individual is assumed constant over individuals and over time periods",
   "urls": "https://github.com/stan-dev/example-models/blob/master/BPA/Ch.06",
   "references": "kery2011population",
@@ -9,7 +10,7 @@
   "added_date": "2021-06-24",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/M0_model.stan",
+      "model_code": "models/stan/M0_model_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

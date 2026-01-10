@@ -21,6 +21,7 @@ parameters {
   //(not captureed during the preceeding occasion)
   real<lower=0, upper=1> c; // Capture probability
   //(captureed during the preceeding occasion)
+  real SUBIDX;
 }
 transformed parameters {
   array[M] vector<lower=0, upper=1>[T] p_eff;
@@ -42,15 +43,18 @@ model {
   
   // Likelihood
   for (i in 1 : M) {
-    if (s[i] > 0) {
-      // z[i] == 1
-      target += bernoulli_lpmf(1 | omega) + bernoulli_lpmf(y[i] | p_eff[i]);
-    } else // s[i] == 0
-    {
-      target += log_sum_exp(bernoulli_lpmf(1 | omega)
-                            // z[i] == 1
-                            + bernoulli_lpmf(y[i] | p_eff[i]),
-                            bernoulli_lpmf(0 | omega));
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      if (s[i] > 0) {
+        // z[i] == 1
+        target += M*bernoulli_lpmf(1 | omega) + M*bernoulli_lpmf(y[i] | p_eff[i]);
+      } else // s[i] == 0
+      {
+        target += M*log_sum_exp(bernoulli_lpmf(1 | omega)
+                              // z[i] == 1
+                              + bernoulli_lpmf(y[i] | p_eff[i]),
+                              bernoulli_lpmf(0 | omega));
+      }
+      break;
     }
   } // z[i] == 0
 }

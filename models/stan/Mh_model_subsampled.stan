@@ -20,6 +20,7 @@ parameters {
   // In case a weakly informative prior is used
   //  real<lower=0> sigma;
   vector[M] eps_raw;
+  real SUBIDX;
 }
 transformed parameters {
   vector[M] eps = logit(mean_p) + sigma * eps_raw;
@@ -35,16 +36,19 @@ model {
   
   // Likelihood
   for (i in 1 : M) {
-    if (y[i] > 0) {
-      // z[i] == 1
-      target += bernoulli_lpmf(1 | omega)
-                + binomial_logit_lpmf(y[i] | T, eps[i]);
-    } else // y[i] == 0
-    {
-      target += log_sum_exp(bernoulli_lpmf(1 | omega)
-                            // z[i] == 1
-                            + binomial_logit_lpmf(0 | T, eps[i]),
-                            bernoulli_lpmf(0 | omega));
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      if (y[i] > 0) {
+        // z[i] == 1
+        target += M*bernoulli_lpmf(1 | omega)
+                  + M*binomial_logit_lpmf(y[i] | T, eps[i]);
+      } else // y[i] == 0
+      {
+        target += M*log_sum_exp(bernoulli_lpmf(1 | omega)
+                              // z[i] == 1
+                              + binomial_logit_lpmf(0 | T, eps[i]),
+                              bernoulli_lpmf(0 | omega));
+      }
+      break;
     }
   } // z[i] == 0
 }

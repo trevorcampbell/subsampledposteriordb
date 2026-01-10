@@ -1,7 +1,8 @@
 {
-  "name": "Mth_model",
+  "name": "Mth_model_subsampled",
   "keywords": ["BPA", "Ch.6", "Population", "Capture", "Recapture", "Individual", "Capture-Recapture", "Occasion", "Heterogeneity", "Mth", "Mth_model"],
   "title": "Capture-recapture model where detection probability varies by occasion and heterogeneity",
+  "subsample_size":"M",
   "description": "A capture-recapture sampling model where that assumes \n          detection probability p varies by an additive effect of the occasion\n          and heterogeneity of individuals in a capture-history matrix with\n          columns representing time, and rows representing individuals.",
   "urls": "https://github.com/stan-dev/example-models/blob/master/BPA/Ch.06",
   "references": "kery2011population",
@@ -9,7 +10,7 @@
   "added_date": "2021-06-25",
   "model_implementations": {
     "stan": {
-      "model_code": "models/stan/Mth_model.stan",
+      "model_code": "models/stan/Mth_model_subsampled.stan",
       "stan_version": ">=2.26.0"
     }
   },

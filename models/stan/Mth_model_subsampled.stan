@@ -22,6 +22,7 @@ parameters {
   // In case a weakly informative prior is used
   //  real<lower=0> sigma;
   vector[M] eps_raw;
+  real SUBIDX;
 }
 transformed parameters {
   vector[M] eps = sigma * eps_raw; // Random effects
@@ -43,17 +44,20 @@ model {
   
   // Likelihood
   for (i in 1 : M) {
-    if (s[i] > 0) {
-      // z[i] == 1
-      target += bernoulli_lpmf(1 | omega)
-                + bernoulli_logit_lpmf(y[i] | logit_p[i]);
-    } else // s[i] == 0
-    {
-      target += log_sum_exp(bernoulli_lpmf(1 | omega)
-                            // z[i] == 1
-                            + bernoulli_logit_lpmf(y[i] | logit_p[i]),
-                            bernoulli_lpmf(0 | omega));
-    } // z[i] == 0
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+      if (s[i] > 0) {
+        // z[i] == 1
+        target += M*bernoulli_lpmf(1 | omega)
+                  + M*bernoulli_logit_lpmf(y[i] | logit_p[i]);
+      } else // s[i] == 0
+      {
+        target += M*log_sum_exp(bernoulli_lpmf(1 | omega)
+                              // z[i] == 1
+                              + bernoulli_logit_lpmf(y[i] | logit_p[i]),
+                              bernoulli_lpmf(0 | omega));
+      } // z[i] == 0
+      break;
+    }
   }
 }
 generated quantities {

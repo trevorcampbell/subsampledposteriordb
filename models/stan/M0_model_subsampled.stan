@@ -18,6 +18,7 @@ transformed data {
 parameters {
   real<lower=0, upper=1> omega; // Inclusion probability
   real<lower=0, upper=1> p; // Detection probability
+  real SUBIDX;
 }
 model {
   // Priors are imlicitly defined;
@@ -26,17 +27,20 @@ model {
   
   // Likelihood
   for (i in 1 : M) {
-    if (s[i] > 0) {
-      // z[i] == 1
-      target += bernoulli_lpmf(1 | omega) + binomial_lpmf(s[i] | T, p);
-    } else // s[i] == 0
-    {
-      target += log_sum_exp(bernoulli_lpmf(1 | omega)
-                            // z[i] == 1
-                            + binomial_lpmf(0 | T, p),
-                            bernoulli_lpmf(0 | omega));
-    }
-  } // z[i] == 0
+  	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+    	if (s[i] > 0) {
+    	  // z[i] == 1
+    	  target += M*bernoulli_lpmf(1 | omega) + M*binomial_lpmf(s[i] | T, p);
+    	} else // s[i] == 0
+    	{
+    	  target += M*log_sum_exp(bernoulli_lpmf(1 | omega)
+    	                        // z[i] == 1
+    	                        + binomial_lpmf(0 | T, p),
+    	                        bernoulli_lpmf(0 | omega));
+    	}
+    	break;
+    } // z[i] == 0
+  }
 }
 generated quantities {
   // prob present given never detected
