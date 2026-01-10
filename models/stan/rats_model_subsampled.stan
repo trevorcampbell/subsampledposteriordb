@@ -16,6 +16,7 @@ parameters {
   real<lower=0> sigma_y; // sigma in original bugs model
   real<lower=0> sigma_alpha;
   real<lower=0> sigma_beta;
+  real SUBIDX;
 }
 model {
   mu_alpha ~ normal(0, 100);
@@ -24,9 +25,12 @@ model {
   alpha ~ normal(mu_alpha, sigma_alpha); // vectorized
   beta ~ normal(mu_beta, sigma_beta); // vectorized
   for (n in 1 : Npts) {
-    int irat;
-    irat = rat[n];
-    y[n] ~ normal(alpha[irat] + beta[irat] * (x[n] - xbar), sigma_y);
+    if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
+        int irat;
+        irat = rat[n];
+        target += normal_lpdf(y[n] | alpha[irat] + beta[irat] * (x[n] - xbar), sigma_y);
+        break;
+    }
   }
 }
 generated quantities {

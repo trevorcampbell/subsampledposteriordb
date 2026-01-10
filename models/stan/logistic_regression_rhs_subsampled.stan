@@ -38,8 +38,10 @@ model {
   beta0 ~ normal(0, scale_icept);
   
   for (i in 1:n){
+     if (i - 0.5 <= SUBIDX && i + 0.5 >= SUBIDX){
         target += n*bernoulli_logit_glm_lpmf({y[i]} | [x[i]], beta0, beta);
         break;
+     }
   }
 }
 generated quantities {
