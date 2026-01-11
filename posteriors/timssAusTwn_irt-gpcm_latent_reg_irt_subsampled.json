@@ -1,0 +1,1 @@
+{"name": "timssAusTwn_irt-gpcm_latent_reg_irt_subsampled", "model_name": "gpcm_latent_reg_irt_subsampled", "data_name": "timssAusTwn_irt", "reference_posterior_name": null, "dimensions": {"alpha": 11, "beta_free": 14, "theta": 500, "lambda_adj": 5, "SUBIDX": 1}, "added_by": "Mans Magnusson", "added_date": "2021-09-08"}

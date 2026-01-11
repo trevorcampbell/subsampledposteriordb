@@ -1,0 +1,1 @@
+{"keywords": ["multimodal", "text data"], "references": "jonasson2021rapid", "dimensions": {"theta": 12, "phi": 498, "SUBIDX": 1}, "reference_posterior_name": null, "added_date": "2021-02-26", "added_by": "Mans Magnusson", "name": "three_men1-ldaK2_subsampled", "model_name": "ldaK2_subsampled", "data_name": "three_men1"}

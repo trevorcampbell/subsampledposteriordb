@@ -1,0 +1,1 @@
+{"name": "mnist-nn_rbm1bJ100_subsampled", "keywords": ["neural net", "multimodal"], "urls": null, "model_name": "nn_rbm1bJ100_subsampled", "data_name": "mnist", "reference_posterior_name": null, "references": null, "dimensions": {"alpha": 78500, "beta": 909, "SUBIDX": 1}, "added_date": "2020-05-28", "added_by": "Mans Magnusson"}

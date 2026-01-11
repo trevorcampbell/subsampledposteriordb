@@ -1,0 +1,1 @@
+{"name": "prideprejudice_paragraph-ldaK5_subsampled", "keywords": ["multimodal", "text data"], "model_name": "ldaK5_subsampled", "reference_posterior_name": null, "data_name": "prideprejudice_paragraph", "dimensions": {"theta": 8100, "phi": 7470, "SUBIDX": 1}, "added_by": "Mans Magnusson", "added_date": "2019-08-12"}
