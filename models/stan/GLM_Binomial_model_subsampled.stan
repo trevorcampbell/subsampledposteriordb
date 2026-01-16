@@ -31,7 +31,7 @@ model {
   // Distribution for random part
   for (i in 1:nyears){
   	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
-  		target += nyears*binomial_logit_pmf(C[i] | N[i], logit_p[i]);
+  		target += nyears*binomial_logit_lpmf(C[i] | N[i], logit_p[i]);
   		break;
   	}
   }
