@@ -35,7 +35,7 @@ model {
   alpha ~ normal(0, 100.);
   theta ~ normal(0, 1);
   beta ~ normal(0.0, 100.);
-  int ii = 1
+  int ii = 1;
   for (k in 1 : T) {
     for (n in 1: N) {
       if (ii - 0.5 <= SUBIDX && ii + 0.5 >= SUBIDX){
