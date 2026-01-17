@@ -27,7 +27,7 @@ model {
   }
   
   for (i in 1:n){
-    for (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
+    if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
       target += n*normal_lpdf(y[i] | yhat[i] + seasonal[i], sigma[3]);
       break;
     }

@@ -21,7 +21,7 @@ parameters {
 model {
   for (i in 1:N){
     if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
-    	target += N*bernoulli_logit_glm_lpmf(switched[i] | x[i, :], alpha, beta);
+    	target += N*bernoulli_logit_glm_lpmf(switched[i] | [x[i, :]], alpha, beta);
     	break;
     } 
   }
