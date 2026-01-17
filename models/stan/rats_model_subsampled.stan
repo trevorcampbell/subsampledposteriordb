@@ -28,7 +28,7 @@ model {
     if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
         int irat;
         irat = rat[n];
-        target += normal_lpdf(y[n] | alpha[irat] + beta[irat] * (x[n] - xbar), sigma_y);
+        target += Npts*normal_lpdf(y[n] | alpha[irat] + beta[irat] * (x[n] - xbar), sigma_y);
         break;
     }
   }
