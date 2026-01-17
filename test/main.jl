@@ -1,5 +1,23 @@
 using StanLogDensityProblems, LogDensityProblems, PosteriorDB
 
+function get_reasonable_point(prb, d)
+	x = randn(d)
+	γ = 1e-6
+	for i=1:100
+		f, g = LogDensityProblems.logdensity_and_gradient(prb, x)
+		xp = x + γ*g
+		fp = LogDensityProblems.logdensity(prb, xp)
+		if fp >= f + 0.5*γ*sum(g.^2)
+			x = xp
+			γ *= 2.0
+		else
+			γ /= 2.0
+		end
+	end
+	return x
+end
+		
+
 function get_subsample_size(pdb, subsampled_posterior)
 	modelnamesub = PosteriorDB.info(subsampled_posterior)["model_name"]
 	datanamesub = PosteriorDB.info(subsampled_posterior)["data_name"]
@@ -30,24 +48,28 @@ function main()
 		prbsub = StanProblem(postsub, "stan")
 		subsample_sz = get_subsample_size(pdb, postsub)
 		d = LogDensityProblems.dimension(prb)
-        z = randn(d)
+		z = get_reasonable_point(prb, d)
         ll = LogDensityProblems.logdensity(prb, z)
 		lls = 0.0
         for i = 1:subsample_sz
 			lls += LogDensityProblems.logdensity(prbsub, vcat(z,i))
 		end
 		lls /= subsample_sz
-		println(postnm*": ll = $(round(ll,digits=2)) lls = $(round.(lls,digits=2)) err = $(round(abs(ll-lls),digits=2)) relerr = $(round(abs(ll-lls)/abs(ll),digits=2))")
+		println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round.(lls,sigdigits=2)) err = $(round(abs(ll-lls),sigdigits=2)) relerr = $(round(abs(ll-lls)/abs(ll),sigdigits=2))")
 
-		_, gll = LogDensityProblems.logdensity_and_gradient(prb, z)
+		ll, gll = LogDensityProblems.logdensity_and_gradient(prb, z)
 		glls = zeros(d)
+		lls = 0.0
         for i = 1:subsample_sz
-			_, glli = LogDensityProblems.logdensity_and_gradient(prbsub, vcat(z,i))
+			lli, glli = LogDensityProblems.logdensity_and_gradient(prbsub, vcat(z,i))
 			glls += glli[1:end-1]
+			lls += lli
 		end
 		glls /= subsample_sz
+		lls /= subsample_sz
 		idcs = rand(1:length(gll), 5)
-		println(postnm*": gll = $(round.(gll[idcs],digits=2)) glls = $(round.(glls[idcs],digits=2)) err = $(round(sqrt(sum((gll-glls).^2)),digits=2)) relerr = $(round(sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2)),digits=2))")
+		println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) err = $(round(sqrt(sum((gll-glls).^2)),sigdigits=2)) relerr = $(round(sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2)),sigdigits=2))")
+		println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round.(lls,sigdigits=2)) err = $(round(abs(ll-lls),sigdigits=2)) relerr = $(round(abs(ll-lls)/abs(ll),sigdigits=2))")
 	end
 end
 

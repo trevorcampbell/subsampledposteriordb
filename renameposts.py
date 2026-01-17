@@ -10,9 +10,12 @@ for fn in os.listdir('posteriors'):
   s['name'] += '_subsampled'
   s['model_name'] += '_subsampled'
   s['dimensions']['SUBIDX'] = 1
-  with open(ffnn, 'w') as f:
-    json.dump(s, f)
+  if os.path.exists('models/stan/'+s['model_name']+'.stan'):
+    with open(ffnn, 'w') as f:
+      json.dump(s, f)
+  else:
+    os.remove(ffnn)
 
-  
 
-  
+
+
