@@ -6,6 +6,7 @@ parameters {
   ordered[2] mu;
   array[2] real<lower=0> sigma;
   real<lower=0, upper=1> theta;
+  real SUBIDX;
 }
 model {
   sigma ~ normal(0, 2);
