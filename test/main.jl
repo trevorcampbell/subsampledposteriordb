@@ -60,6 +60,7 @@ function main()
 		if !occursin("_subsampled", subpostnm)
 			continue
 		end
+		# create logprob objects
 		postnm = subpostnm[1:end-11]
 		println("Running test $i for $postnm")
 		post = PosteriorDB.posterior(pdb, postnm)
@@ -68,9 +69,15 @@ function main()
 		prbsub = StanProblem(postsub, "stan")
 		subsample_sz = get_subsample_size(pdb, postsub)
 		d = LogDensityProblems.dimension(prb)
-		# compute ll diffs, stan doesn't guarantee constants are the same
+		# create two test points (compute ll diffs, stan doesn't guarantee constants are the same)
 		z1 = get_reasonable_point(prb, d)
 		z2 = get_reasonable_point(prb, d)
+		# run functions one time to ensure compilation before timing
+		LogDensityProblems.logdensity(prb, z1)
+		LogDensityProblems.logdensity(prbsub, vcat(z1,1))
+		LogDensityProblems.logdensity_and_gradient(prb, z1)
+		LogDensityProblems.logdensity_and_gradient(prbsub, vcat(z1,1))
+		# compare logdensity and subsampled average with timing
 		t_full = time_ns()
         ll = LogDensityProblems.logdensity(prb, z1) - LogDensityProblems.logdensity(prb, z2)
         t_full = (time_ns() - t_full)/1e9
