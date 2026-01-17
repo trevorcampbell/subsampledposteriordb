@@ -39,7 +39,7 @@ model {
   if (!prior_only) {
   	for (i in 1:N){
   		if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
-    		target += N*normal_id_glm_lpdf(Y[i] | Xc[i,:], Intercept, b, sigma);
+    		target += N*normal_id_glm_lpdf(Y[i] | [Xc[i,:]], Intercept, b, sigma);
     		break;
     	}
     }

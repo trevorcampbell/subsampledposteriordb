@@ -15,7 +15,7 @@ model {
   sigma ~ cauchy(0, 2.5);
   
   for (t in (K + 1) : T) {
-  	if (t - 0.5 <= SUBIDX && t + 0.5 >= SUBIDX){
+  	if (t - 0.5 <= SUBIDX+K && t + 0.5 >= SUBIDX+K){
     	real mu;
     	mu = alpha;
     	
@@ -23,7 +23,7 @@ model {
     	  mu = mu + beta[k] * y[t - k];
     	}
     	
-    	target += T*normal_lpdf(y[t] | mu, sigma);
+    	target += (T-K)*normal_lpdf(y[t] | mu, sigma);
     	break;
     }
   }
