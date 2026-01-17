@@ -14,7 +14,7 @@ parameters {
 model {
   for (n in 1:N){
     if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
-      target += N*bernoulli_logit_glm_lpdf(vote[n] | x[n,:], alpha, beta);
+      target += N*bernoulli_logit_glm_lpmf(vote[n] | [x[n,:]], alpha, beta);
       break;
     }
   }

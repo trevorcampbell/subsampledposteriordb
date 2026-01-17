@@ -50,13 +50,18 @@ end
 function main()
 	pdb = PosteriorDB.database()
 	posteriors = PosteriorDB.posterior_names(pdb)
+	i = 0
 	for subpostnm in posteriors
+		i += 1
+		if i <= 129
+			continue
+		end
 		# only look at subsampled posteriors
 		if !occursin("_subsampled", subpostnm)
 			continue
 		end
 		postnm = subpostnm[1:end-11]
-		println("Running test for $postnm")
+		println("Running test $i for $postnm")
 		post = PosteriorDB.posterior(pdb, postnm)
 		prb = StanProblem(post, "stan")
 		postsub = PosteriorDB.posterior(pdb, subpostnm)
@@ -66,18 +71,26 @@ function main()
 		# compute ll diffs, stan doesn't guarantee constants are the same
 		z1 = get_reasonable_point(prb, d)
 		z2 = get_reasonable_point(prb, d)
+		t_full = time_ns()
         ll = LogDensityProblems.logdensity(prb, z1) - LogDensityProblems.logdensity(prb, z2)
+        t_full = (time_ns() - t_full)/1e9
+        t_sub = time_ns()
 		lls = 0.0
 		ll2s = 0.0
         for i = 1:subsample_sz
-			lls += LogDensityProblems.logdensity(prbsub, vcat(z1,i)) - LogDensityProblems.logdensity(prbsub, vcat(z2,i))
-			ll2s += (LogDensityProblems.logdensity(prbsub, vcat(z1,i)) - LogDensityProblems.logdensity(prbsub, vcat(z2,i)))^2
+        	lldiff = LogDensityProblems.logdensity(prbsub, vcat(z1,i)) - LogDensityProblems.logdensity(prbsub, vcat(z2,i))
+			lls += lldiff
+			ll2s += lldiff^2
 		end
 		lls /= subsample_sz
 		ll2s /= subsample_sz
-		println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round(lls,sigdigits=2)) var = $(round(ll2s-lls^2,sigdigits=2)) err = $(round(abs(ll-lls),sigdigits=2)) relerr = $(round(abs(ll-lls)/abs(ll),sigdigits=2))")
+		t_sub = (time_ns() - t_sub)/1e9
+		println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round(lls,sigdigits=2)) var = $(round(ll2s-lls^2,sigdigits=2)) t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abs(ll-lls),sigdigits=2)) relerr = $(round(abs(ll-lls)/abs(ll),sigdigits=2))")
 
+		t_full = time_ns()
 		_, gll = LogDensityProblems.logdensity_and_gradient(prb, z1)
+        t_full = (time_ns() - t_full)/1e9
+        t_sub = time_ns()
 		glls = zeros(d)
 		gll2s = 0.0
         for i = 1:subsample_sz
@@ -87,8 +100,9 @@ function main()
 		end
 		glls /= subsample_sz
 		gll2s /= subsample_sz
+		t_sub = (time_ns() - t_sub)/1e9
 		idcs = rand(1:length(gll), 5)
-		println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) var = $(round(gll2s-sum(glls.^2),sigdigits=2)) err = $(round(sqrt(sum((gll-glls).^2)),sigdigits=2)) relerr = $(round(sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2)),sigdigits=2))")
+		println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) var = $(round(gll2s-sum(glls.^2),sigdigits=2))  t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(sqrt(sum((gll-glls).^2)),sigdigits=2)) relerr = $(round(sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2)),sigdigits=2))")
 	end
 end
 
