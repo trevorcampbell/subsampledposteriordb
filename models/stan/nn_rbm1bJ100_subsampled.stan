@@ -27,11 +27,10 @@ parameters {
   real SUBIDX;
 }
 model {
-  matrix[N, K] v = append_col(ones,
-                              append_col(ones,
-                                         tanh(x1 * append_row(alpha1, alpha)))
-                              * append_row(beta1, beta));
-  
+  //matrix[N, K] v = append_col(ones,
+  //                            append_col(ones,
+  //                                       tanh(x1 * append_row(alpha1, alpha)))
+  //                            * append_row(beta1, beta));
   // Priors
   alpha1 ~ normal(0, 1);
   beta1 ~ normal(0, 1);
@@ -42,7 +41,9 @@ model {
   to_vector(beta) ~ normal(0, sqrt(sigma2_beta));
   for (n in 1 : N) {
     if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
-      target += N*categorical_logit_lpmf(y[n] | v[n]');
+      vector[K] v = rep_vector(1,K);
+      v[2:K] = (beta1 + tanh(alpha1 + x[n,:]*alpha)*beta)';
+      target += N*categorical_logit_lpmf(y[n] | v);
       break;
     }
   }

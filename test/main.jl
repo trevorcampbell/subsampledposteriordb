@@ -50,19 +50,16 @@ end
 function main()
 	pdb = PosteriorDB.database()
 	posteriors = PosteriorDB.posterior_names(pdb)
-	i = 0
+	ii = 0
 	for subpostnm in posteriors
-		i += 1
-		if i <= 129
-			continue
-		end
+		ii += 1
 		# only look at subsampled posteriors
 		if !occursin("_subsampled", subpostnm)
 			continue
 		end
 		# create logprob objects
 		postnm = subpostnm[1:end-11]
-		println("Running test $i for $postnm")
+		println("Running test $ii for $postnm")
 		post = PosteriorDB.posterior(pdb, postnm)
 		prb = StanProblem(post, "stan")
 		postsub = PosteriorDB.posterior(pdb, subpostnm)
@@ -79,28 +76,32 @@ function main()
 		LogDensityProblems.logdensity_and_gradient(prbsub, vcat(z1,1))
 		# compare logdensity and subsampled average with timing
 		t_full = time_ns()
-        ll = LogDensityProblems.logdensity(prb, z1) - LogDensityProblems.logdensity(prb, z2)
-        t_full = (time_ns() - t_full)/1e9
-        t_sub = time_ns()
+		ll = LogDensityProblems.logdensity(prb, z1) - LogDensityProblems.logdensity(prb, z2)
+		t_full = (time_ns() - t_full)/1e9
+		t_sub = time_ns()
 		lls = 0.0
 		ll2s = 0.0
-        for i = 1:subsample_sz
-        	lldiff = LogDensityProblems.logdensity(prbsub, vcat(z1,i)) - LogDensityProblems.logdensity(prbsub, vcat(z2,i))
+		for i = 1:subsample_sz
+			lldiff = LogDensityProblems.logdensity(prbsub, vcat(z1,i)) - LogDensityProblems.logdensity(prbsub, vcat(z2,i))
 			lls += lldiff
 			ll2s += lldiff^2
 		end
 		lls /= subsample_sz
 		ll2s /= subsample_sz
 		t_sub = (time_ns() - t_sub)/1e9
-		println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round(lls,sigdigits=2)) var = $(round(ll2s-lls^2,sigdigits=2)) t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abs(ll-lls),sigdigits=2)) relerr = $(round(abs(ll-lls)/abs(ll),sigdigits=2))")
+                abserr = abs(ll-lls)
+		relerr = abs(ll-lls)/abs(ll)
+		if (abserr > 1e-6 || relerr > 1e-6)
+			println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round(lls,sigdigits=2)) var = $(round(ll2s-lls^2,sigdigits=2)) t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abserr,sigdigits=2)) relerr = $(round(relerr,sigdigits=2))")
+		end
 
 		t_full = time_ns()
 		_, gll = LogDensityProblems.logdensity_and_gradient(prb, z1)
-        t_full = (time_ns() - t_full)/1e9
-        t_sub = time_ns()
+		t_full = (time_ns() - t_full)/1e9
+		t_sub = time_ns()
 		glls = zeros(d)
 		gll2s = 0.0
-        for i = 1:subsample_sz
+		for i = 1:subsample_sz
 			_, glli = LogDensityProblems.logdensity_and_gradient(prbsub, vcat(z1,i))
 			glls += glli[1:end-1]
 			gll2s += sum(glli[1:end-1].^2)
@@ -109,7 +110,11 @@ function main()
 		gll2s /= subsample_sz
 		t_sub = (time_ns() - t_sub)/1e9
 		idcs = rand(1:length(gll), 5)
-		println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) var = $(round(gll2s-sum(glls.^2),sigdigits=2))  t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(sqrt(sum((gll-glls).^2)),sigdigits=2)) relerr = $(round(sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2)),sigdigits=2))")
+		abserr = sqrt(sum((gll-glls).^2))
+		relerr = sqrt(sum((gll-glls).^2))/sqrt(sum(gll.^2))
+		if (abserr > 1e-6 || relerr > 1e-6)
+			println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) var = $(round(gll2s-sum(glls.^2),sigdigits=2))  t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abserr,sigdigits=2)) relerr = $(round(relerr,sigdigits=2))")
+		end
 	end
 end
 
