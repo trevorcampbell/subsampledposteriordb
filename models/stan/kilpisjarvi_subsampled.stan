@@ -20,7 +20,7 @@ model {
   beta ~ normal(pmubeta, psbeta);
   for (i in 1:N){
   	if (i-0.5 <= SUBIDX && i+0.5 >= SUBIDX){
-  		target += normal_lpdf(y[i] | alpha + beta * x[i], sigma);
+  		target += N*normal_lpdf(y[i] | alpha + beta * x[i], sigma);
   		break;
   	}
   }
