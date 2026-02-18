@@ -44,7 +44,7 @@ transformed parameters {
   array[N_t, 4] real<lower=0> y;
   {
     array[5] real theta = {beta, kappa, gamma, xi, delta};
-    y = integrate_ode_rk45(simple_SIR, y0, t0, t, theta, x_r, x_i);
+    y = fmax(integrate_ode_rk45(simple_SIR, y0, t0, t, theta, x_r, x_i), 0);
   }
 }
 model {
@@ -55,15 +55,15 @@ model {
   
   if (0.5 <= SUBIDX && 1.5 >= SUBIDX){
     target += N_t*poisson_lpmf(stoi_hat[1] | y0[1] - y[1,1]);
+    target += N_t*lognormal_lpdf(B_hat[1] | log(fmax(y[1,4],1e-16)), 0.15);
   }
   for (n in 2 : N_t) {
     if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
       target += N_t*poisson_lpmf(stoi_hat[n] | y[n - 1, 1] - y[n, 1]);
+      target += N_t*lognormal_lpdf(B_hat[n] | log(fmax(y[n,4], 1e-16)), 0.15);
       break;
     }
   }
-  
-  B_hat ~ lognormal(log(col(to_matrix(y), 4)), 0.15);
 }
 
 
