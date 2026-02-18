@@ -54,12 +54,12 @@ model {
   delta ~ cauchy(0, 1);
   
   if (0.5 <= SUBIDX && 1.5 >= SUBIDX){
-    target += N_t*poisson_lpmf(stoi_hat[1] | y0[1] - y[1,1]);
+    target += N_t*poisson_lpmf(stoi_hat[1] | fmax(y0[1] - y[1,1],1e-16));
     target += N_t*lognormal_lpdf(B_hat[1] | log(fmax(y[1,4],1e-16)), 0.15);
   }
   for (n in 2 : N_t) {
     if (n-0.5 <= SUBIDX && n+0.5 >= SUBIDX){
-      target += N_t*poisson_lpmf(stoi_hat[n] | y[n - 1, 1] - y[n, 1]);
+      target += N_t*poisson_lpmf(stoi_hat[n] | fmax(y[n - 1, 1] - y[n, 1], 1e-16));
       target += N_t*lognormal_lpdf(B_hat[n] | log(fmax(y[n,4], 1e-16)), 0.15);
       break;
     }
