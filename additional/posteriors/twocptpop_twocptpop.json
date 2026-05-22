@@ -1,0 +1,16 @@
+{
+  "name": "twocptpop_twocptpop",
+  "model_name": "twocptpop",
+  "data_name": "twocptpopdata",
+  "dimensions": {
+    "CL_pop": 1, 
+    "Q_pop": 1,
+    "VC_pop": 1,
+    "VP_pop": 1,
+    "ka_pop": 1,
+    "omega": 5,
+    "theta": 100,
+    "sigma": 1
+  }
+}
+

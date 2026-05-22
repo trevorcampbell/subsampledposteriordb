@@ -1,0 +1,12 @@
+{
+  "name": "sparsepoiss_crime",
+  "model_name": "sparse_poisson_regression",
+  "data_name": "sprcrime",
+  "dimensions": {
+    "beta_tilde": 103,
+    "lambda": 103,
+    "c2_tilde": 1,
+    "tau_tilde": 1,
+    "alpha": 1
+  }
+}

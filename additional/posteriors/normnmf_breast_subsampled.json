@@ -1,0 +1,11 @@
+{
+  "name": "normnmf_breast_subsampled",
+  "model_name": "normalized_nmf_subsampled",
+  "data_name": "nmfbreast",
+  "dimensions": {
+	"theta": 5350, 
+    "r": 2400,
+    "mu": 25,
+    "SUBIDX": 1
+  }
+}

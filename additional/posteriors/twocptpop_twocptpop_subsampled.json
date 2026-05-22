@@ -1,0 +1,17 @@
+{
+  "name": "twocptpop_twocptpop_subsampled",
+  "model_name": "twocptpop_subsampled",
+  "data_name": "twocptpopdata",
+  "dimensions": {
+    "CL_pop": 1, 
+    "Q_pop": 1,
+    "VC_pop": 1,
+    "VP_pop": 1,
+    "ka_pop": 1,
+    "omega": 5,
+    "theta": 100,
+    "sigma": 1,
+	"SUBIDX": 1
+  }
+}
+

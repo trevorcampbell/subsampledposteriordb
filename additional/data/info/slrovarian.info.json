@@ -1,0 +1,5 @@
+{
+	"name": "slrovarian",
+	"title": "Sparse logistic regression ovarian data",
+	"data_file": "data/data/slrovarian.json"
+}

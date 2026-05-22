@@ -1,0 +1,5 @@
+{
+	"name": "nmfovary",
+	"title": "Nonnegative matrix factorization ovarian cancer data",
+	"data_file": "data/data/nmfovary.json"
+}

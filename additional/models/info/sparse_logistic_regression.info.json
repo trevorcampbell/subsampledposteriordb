@@ -1,0 +1,10 @@
+{
+  "name": "sparse_logistic_regression",
+  "title": "Sparse Logistic Regression",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/sparse_logistic_regression.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

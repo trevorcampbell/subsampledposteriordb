@@ -1,0 +1,12 @@
+{
+  "name": "sparselog_ovarian",
+  "model_name": "sparse_logistic_regression",
+  "data_name": "slrovarian",
+  "dimensions": {
+    "beta_tilde": 1536,
+    "lambda": 1536,
+    "c2_tilde": 1,
+    "tau_tilde": 1,
+    "alpha": 1
+  }
+}

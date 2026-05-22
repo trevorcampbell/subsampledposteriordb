@@ -1,0 +1,5 @@
+{
+	"name": "nmfskin",
+	"title": "Nonnegative matrix factorization skin cancer data",
+	"data_file": "data/data/nmfskin.json"
+}

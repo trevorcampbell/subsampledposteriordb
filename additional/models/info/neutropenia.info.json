@@ -1,0 +1,10 @@
+{
+  "name": "neutropenia",
+  "title": "Neutropenia ODE Model",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/neutropenia.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

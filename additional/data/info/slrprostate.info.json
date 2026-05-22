@@ -1,0 +1,5 @@
+{
+	"name": "slrprostate",
+	"title": "Sparse logistic regression prostate data",
+	"data_file": "data/data/slrprostate.json"
+}

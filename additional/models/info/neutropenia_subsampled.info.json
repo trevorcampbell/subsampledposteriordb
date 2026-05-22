@@ -1,0 +1,11 @@
+{
+  "name": "neutropenia_subsampled",
+  "title": "Neutropenia ODE Model",
+  "subsample_size": "nObsPK+nObsPD",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/neutropenia_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

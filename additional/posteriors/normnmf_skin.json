@@ -1,0 +1,10 @@
+{
+  "name": "normnmf_skin",
+  "model_name": "normalized_nmf",
+  "data_name": "nmfskin",
+  "dimensions": {
+    "theta": 2675, 
+    "r": 2400,
+    "mu": 25
+  }
+}

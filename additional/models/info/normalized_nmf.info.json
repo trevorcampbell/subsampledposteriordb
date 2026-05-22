@@ -1,0 +1,10 @@
+{
+  "name": "normalized_nmf",
+  "title": "Normalized Nonnegative Matrix Factorization",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/normalized_nmf.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

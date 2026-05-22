@@ -1,0 +1,11 @@
+{
+  "name": "normnmf_skin_subsampled",
+  "model_name": "normalized_nmf_subsampled",
+  "data_name": "nmfskin",
+  "dimensions": {
+	"theta": 2675, 
+    "r": 2400,
+    "mu": 25,
+    "SUBIDX": 1
+  }
+}

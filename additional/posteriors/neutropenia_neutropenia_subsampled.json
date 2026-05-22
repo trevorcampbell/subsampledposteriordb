@@ -1,0 +1,20 @@
+{
+  "name": "neutropenia_neutropenia_subsampled",
+  "model_name": "neutropenia_subsampled",
+  "data_name": "neutropeniadata",
+  "dimensions": {
+    "CL": 1, 
+    "Q": 1,
+    "V1": 1,
+    "V2": 1,
+    "ka": 1,
+    "mtt": 1,
+    "circ0": 1,
+    "alpha": 1,
+    "gamma": 1,
+    "sigma": 1,
+    "sigmaNeut": 1,
+    "SUBIDX": 1
+  }
+}
+

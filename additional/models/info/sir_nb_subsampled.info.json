@@ -1,0 +1,11 @@
+{
+  "name": "sir_nb_subsampled",
+  "title": "SIR NB Model",
+  "subsample_size": "n_days",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/sir_nb_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

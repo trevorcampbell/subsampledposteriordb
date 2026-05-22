@@ -1,0 +1,11 @@
+{
+  "name": "sparse_poisson_regression_subsampled",
+  "title": "Sparse Poisson Regression",
+  "subsample_size": "N",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/sparse_poisson_regression_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

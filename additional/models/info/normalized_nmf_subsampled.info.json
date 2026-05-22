@@ -1,0 +1,11 @@
+{
+  "name": "normalized_nmf_subsampled",
+  "title": "Normalized Nonnegative Matrix Factorization",
+  "subsample_size": "I*J",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/normalized_nmf_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "sparselog_prostate_subsampled",
+  "model_name": "sparse_logistic_regression_subsampled",
+  "data_name": "slrprostate",
+  "dimensions": {
+    "beta_tilde": 5966,
+    "lambda": 5966,
+    "c2_tilde": 1,
+    "tau_tilde": 1,
+    "alpha": 1,
+    "SUBIDX" : 1
+  }
+}

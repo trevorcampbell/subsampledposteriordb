@@ -1,0 +1,11 @@
+{
+  "name": "sirnb_sirnb",
+  "model_name": "sir_nb",
+  "data_name": "sir_nbdata",
+  "dimensions": {
+    "gamma": 1,
+    "beta": 1,
+    "phi_inv": 1
+  }
+}
+

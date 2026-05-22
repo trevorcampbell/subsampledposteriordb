@@ -1,0 +1,12 @@
+{
+  "name": "sirnb_sirnb_subsampled",
+  "model_name": "sir_nb_subsampled",
+  "data_name": "sir_nbdata",
+  "dimensions": {
+    "gamma": 1,
+    "beta": 1,
+    "phi_inv": 1,
+    "SUBIDX": 1
+  }
+}
+

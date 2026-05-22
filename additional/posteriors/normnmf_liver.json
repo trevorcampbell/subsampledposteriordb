@@ -1,0 +1,10 @@
+{
+  "name": "normnmf_liver",
+  "model_name": "normalized_nmf",
+  "data_name": "nmfliver",
+  "dimensions": {
+    "theta": 8150, 
+    "r": 2400,
+    "mu": 25
+  }
+}

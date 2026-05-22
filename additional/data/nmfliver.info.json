@@ -1,0 +1,5 @@
+{
+	"name": "nmfliver",
+	"title": "Nonnegative matrix factorization liver cancer data",
+	"data_file": "data/data/nmfliver.json"
+}

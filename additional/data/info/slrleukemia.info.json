@@ -1,0 +1,5 @@
+{
+	"name": "slrleukemia",
+	"title": "Sparse logistic regression leukemia data",
+	"data_file": "data/data/slrleukemia.json"
+}

@@ -1,0 +1,5 @@
+{
+	"name": "nmflung",
+	"title": "Nonnegative matrix factorization lung cancer data",
+	"data_file": "data/data/nmflung.json"
+}

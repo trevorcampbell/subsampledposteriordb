@@ -1,0 +1,5 @@
+{
+	"name": "nmfbreast",
+	"title": "Nonnegative matrix factorization breast cancer data",
+	"data_file": "data/data/nmfbreast.json"
+}

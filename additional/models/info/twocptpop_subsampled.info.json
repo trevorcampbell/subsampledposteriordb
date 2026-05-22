@@ -1,0 +1,11 @@
+{
+  "name": "twocptpop_subsampled",
+  "title": "Two compartment population model",
+  "subsample_size": "nObs",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/twocptpop_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

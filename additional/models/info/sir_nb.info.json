@@ -1,0 +1,10 @@
+{
+  "name": "sir_nb",
+  "title": "SIR NB Model",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/sir_nb.stan",
+      "stan_version": ">=2.26.0"
+    }
+  }
+}

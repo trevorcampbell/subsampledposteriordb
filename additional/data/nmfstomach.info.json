@@ -1,0 +1,5 @@
+{
+	"name": "nmfstomach",
+	"title": "Nonnegative matrix factorization stomach cancer data",
+	"data_file": "data/data/nmfstomach.json"
+}

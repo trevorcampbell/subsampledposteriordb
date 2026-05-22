@@ -1,0 +1,11 @@
+{
+  "name": "normnmf_ovary_subsampled",
+  "model_name": "normalized_nmf_subsampled",
+  "data_name": "nmfovary",
+  "dimensions": {
+	"theta": 2825, 
+    "r": 2400,
+    "mu": 25,
+    "SUBIDX": 1
+  }
+}

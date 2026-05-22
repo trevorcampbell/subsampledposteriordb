@@ -1,0 +1,11 @@
+{
+  "name": "normnmf_lung_subsampled",
+  "model_name": "normalized_nmf_subsampled",
+  "data_name": "nmflung",
+  "dimensions": {
+	"theta": 950, 
+    "r": 2400,
+    "mu": 25,
+    "SUBIDX": 1
+  }
+}
