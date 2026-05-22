@@ -131,3 +131,33 @@ model {
 	}
 }
 ```
+
+The maximum subsampling index ("dataset size") is found in each model's information JSON file in the `subsample_size` entry.
+For example, for the `earn_height_subsampled` model, the `subsample_size` is `N`, one of the variables from the model code.
+
+```
+{
+  "name": "earn_height_subsampled",
+  "keywords": ["ARM", "Ch. 4", "stan_examples"],
+  "title": "One Predictor Linear Model",
+  "subsample_size": "N",
+  "prior": {
+    "keywords": "stan_recommended_35dbfe6"
+  },
+  "description": "earn ~ height",
+  "urls": "https://raw.githubusercontent.com/stan-dev/example-models/master/ARM/Ch.4/earn_height.stan",
+  "model_implementations": {
+    "stan": {
+      "model_code": "models/stan/earn_height_subsampled.stan",
+      "stan_version": ">=2.26.0"
+    }
+  },
+  "references": "gelman2006data",
+  "added_date": "2020-01-17",
+  "added_by": "Oliver Järnefelt",
+  "licence": "BSD3"
+}
+
+Some other models have a subsample size that is a simple algebraic composite of two variables, like `N+K` or `N*K` or `N-K`; processing code must
+be able to handle this properly. The provided `get_subsample_size` function in `test/main.jl` shows how to do this in Julia, but you'll need
+to implement it yourself for other languages.
