@@ -20,7 +20,7 @@ lp = logp(full_posterior, x)
 ```
 
 **Important:** Because of how the subsampled posteriors are implemented (see below), 
-`logp(x)` is sometimes 10-10,000x faster than adding up all the individual `logp(x,i)` terms.
+`logp(x)` can be 10-10,000x faster than adding up all the individual `logp(x,i)` terms.
 Do not use these posteriors to compare subsampled methods to full-data methods. This repository is
 meant to be used for comparing different methods on the same posterior, whether subsampled or not.
 
