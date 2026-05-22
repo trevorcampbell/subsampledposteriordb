@@ -157,6 +157,7 @@ For example, for the `earn_height_subsampled` model, the `subsample_size` is `N`
   "added_by": "Oliver Järnefelt",
   "licence": "BSD3"
 }
+```
 
 Some other models have a subsample size that is a simple algebraic composite of two variables, like `N+K` or `N*K` or `N-K`; processing code must
 be able to handle this properly. The provided `get_subsample_size` function in `test/main.jl` shows how to do this in Julia, but you'll need
