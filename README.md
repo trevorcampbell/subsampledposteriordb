@@ -172,3 +172,9 @@ over all the individual `logp(x,i)` terms (one pass over the whole dataset via s
 
 <img width="450" alt="reltime_logp" src="https://github.com/user-attachments/assets/6379cc54-23b5-4105-87be-666e9b8660bb" />
 <img width="450" alt="reltime_gradlogp" src="https://github.com/user-attachments/assets/983d99ab-e63d-4fe4-be93-def767a0d8c8" />
+
+## Other implementation ideas
+
+The best alternative option is to set the index as an entry in `data{...}` in the Stan model, and update that to change which data point is being considered. This would indeed be nice; it would circumvent having to loop over the entire data index set to find `SUBIDX`. Unfortunately, as far as I can tell, Stan/BridgeStan bake the data into the C++ model object directly and don't expose a reference to it, meaning that any changes to the data involve reconstructing that object from the JSON data string. This ends up being much more expensive than running a loop with mostly no-ops in search of the right index.
+
+Another is to try to convert the real-valued `SUBIDX` to an integer in the `model{...}` block; this doesn't seem possible currently.
