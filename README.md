@@ -71,9 +71,8 @@ activate --temp
 add PosteriorDB
 ```
 
-This should install the `PosteriorDB.jl` package. You now will need to modify it manually to add the 
-subsampled posteriors as well as challenge problems.
-Navigate to `~/.julia/artifacts` and run
+This should install the `PosteriorDB.jl` package. You now will need to modify it to add the 
+subsampled posteriors. Navigate to `~/.julia/artifacts` and run
 
 ```
 find . -name "posteriordb*"
@@ -89,6 +88,9 @@ Then run `./move.sh` (you may need to `chmod u+x move.sh` first if it isn't exec
 stan models and posteriors into your installation.
 
 To check your installation, you can navigate to the `test/` folder in this repo and run `julia --project=. main.jl`.
+
+On Mac/Windows, you may not be able to use `move.sh`, so you'll need to manually copy the files 
+in `models/` and `posteriors/` to their correct locations in the julia artifacts cache.
 
 ## How It Works
 Since Stan requires real-valued inputs, 
