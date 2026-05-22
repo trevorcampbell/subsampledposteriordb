@@ -134,12 +134,6 @@ model {
 	}
 }
 ```
-The loop over `1:N` is why this implementation is very inefficient and should not be used to compare subsampling to full-data methods.
-The two figures below show the histogram of relative time to compute `logp(x)` (full data, original posterior) versus summing
-over all the individual `logp(x,i)` terms (one pass over the whole dataset via subsampling):
-
-<img width="450" alt="reltime_logp" src="https://github.com/user-attachments/assets/6379cc54-23b5-4105-87be-666e9b8660bb" />
-<img width="450" alt="reltime_gradlogp" src="https://github.com/user-attachments/assets/983d99ab-e63d-4fe4-be93-def767a0d8c8" />
 
 The maximum subsampling index ("dataset size") is found in each model's information JSON file in the `subsample_size` entry.
 For example, for the `earn_height_subsampled` model, the `subsample_size` is `N`, one of the variables from the model code.
@@ -171,3 +165,10 @@ For example, for the `earn_height_subsampled` model, the `subsample_size` is `N`
 Some other models have a subsample size that is a simple algebraic composite of two variables, like `N+K` or `N*K` or `N-K`; processing code must
 be able to handle this properly. The provided `get_subsample_size` function in `test/main.jl` shows how to do this in Julia, but you'll need
 to implement it yourself for other languages.
+
+The loop over `1:N` is why this implementation is very inefficient and should not be used to compare subsampling to full-data methods.
+The two figures below show the histogram of relative time to compute `logp(x)` (full data, original posterior) versus summing
+over all the individual `logp(x,i)` terms (one pass over the whole dataset via subsampling):
+
+<img width="450" alt="reltime_logp" src="https://github.com/user-attachments/assets/6379cc54-23b5-4105-87be-666e9b8660bb" />
+<img width="450" alt="reltime_gradlogp" src="https://github.com/user-attachments/assets/983d99ab-e63d-4fe4-be93-def767a0d8c8" />
