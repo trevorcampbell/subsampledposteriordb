@@ -19,7 +19,7 @@ provides an unbiased estimate of
 lp = logp(full_posterior, x)
 ```
 
-**Important:** The implementation of `N logp(x,i)` is in some cases just as slow as `logp(x)`.
+**Important:** The implementation of a single call to `logp(x,i)` is in some cases just as slow as `logp(x)`.
 Do not use these posteriors to compare subsampled methods to full-data methods. This repository is
 meant to be used for comparing different methods on the same posterior, whether subsampled or not.
 
