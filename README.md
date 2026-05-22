@@ -44,7 +44,8 @@ z = randn(d)
 LogDensityProblems.logdensity(prob, z)
 LogDensityProblems.logdensity_and_gradient(prob, z)
 ```
-and one could run very similar code to work with its subsampled version, `dogs-dogs_subsampled`:
+and one could run very similar code to work with its subsampled version, `dogs-dogs_subsampled`,
+where the `get_subsample_size` function in `test/main.jl` is used to get the total "data size" for this posterior:
 ```
 postsub = PosteriorDB.posterior(pdb, "dogs-dogs_subsampled")
 probsub = StanProblem(postsub, "stan")
