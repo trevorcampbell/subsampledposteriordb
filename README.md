@@ -28,7 +28,7 @@ a single full-data posterior.
 
 ## Basic Usage
 
-You can use these posteriors from any interface to Stan.
+You can use these posteriors from any interface to Stan + PosteriorDB.
 For example, from Julia, first make sure there is a directory named `stan/` in the working directory to hold compiled models.
 Then to work with the full-data `dogs-dogs` posterior one could run
 ```
