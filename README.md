@@ -22,7 +22,7 @@ lp = logp(full_posterior, x)
 ## Important Caveat
 Because of how the subsampled posteriors are implemented (see below), 
 `logp(x)` can be 10-10,000x faster than adding up all the individual `logp(x,i)` terms.
-**Do not use these Stan posteriors to compare subsampled methods to full-data methods.** This repository is
+For that reason, **do not use these Stan posteriors to compare subsampled methods to full-data methods.** This repository is
 meant to be used for comparing different subsampling methods on a single subsampled posterior, or different full-data methods on
 a single full-data posterior.
 
