@@ -6,7 +6,7 @@ log density function for a posterior named `posterior_name` from PosteriorDB is 
 this repository provides a posterior named `posterior_name_subsampled` 
 that returns a log density 
 ```
-logp(x,i) where logp(x) = (1/N)(logp(x,1) + logp(x,2) + ... + logp(x,N))`,
+logp(x,i) where logp(x) = (1/N)(logp(x,1) + logp(x,2) + ... + logp(x,N))
 ```
 as well as a method to compute the appropriate "data size" `N` for each posterior.
 Note the scaling by `N`; this ensures that 
