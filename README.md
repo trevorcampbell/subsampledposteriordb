@@ -4,10 +4,19 @@ This repository contains data-subsampled versions of most of the posteriors in P
 These enable sub-indexing of posterior log densities. More specifically, if the standard
 log density function for a posterior named `posterior_name` from PosteriorDB is `logp(x)`,
 this repository provides a posterior named `posterior_name_subsampled` 
-with log density `logp(x,i)` where `logp(x) = logp(x,1) + logp(x,2) + ... + logp(x,N)`,
+that returns a log density `N logp(x,i)` where `logp(x) = logp(x,1) + logp(x,2) + ... + logp(x,N)`,
 as well as a method to compute the appropriate "data size" `N` for each posterior.
+Note the scaling by `N`; this ensures that 
+```
+I = rand(1:N)
+lphat = logp(subsampled_posterior, (x, I))
+```
+provides an unbiased estimate of
+```
+lp = logp(full_posterior, x)
+```
 
-**Important:** The implementation of `logp(x,i)` is in some cases just as slow as `logp(x)`.
+**Important:** The implementation of `N logp(x,i)` is in some cases just as slow as `logp(x)`.
 Do not use these posteriors to compare subsampled methods to full-data methods. This repository is
 meant to be used for comparing different methods on the same posterior, whether subsampled or not.
 
@@ -75,9 +84,12 @@ Make sure the directory structure in that script correctly points to your instal
 Then run `./move.sh` (you may need to `chmod u+x move.sh` first if it isn't executable) to move the set of
 stan models and posteriors into your installation.
 
-To check
+To check your installation, you can navigate to the `test/` folder in this repo and run `julia --project=. main.jl`.
 
 ## How It Works
+Since Stan requires real-valued inputs, 
+we add one parameter `SUBIDX` to each model, and loop over indices until the value of `SUBIDX` matches that index
+(and this is why the implementation is generally fairly inefficient).
 For example, for the `earn_height` posterior from PosteriorDB, we create the `earn_height_subsampled` 
 posterior as follows:
 

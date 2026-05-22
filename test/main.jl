@@ -1,4 +1,5 @@
 using StanLogDensityProblems, LogDensityProblems, PosteriorDB
+using Plots
 
 function get_reasonable_point(prb, d)
 	x = randn(d)
@@ -51,7 +52,9 @@ function main()
 	pdb = PosteriorDB.database()
 	posteriors = PosteriorDB.posterior_names(pdb)
 	ii = 0
-	for subpostnm in posteriors
+	trels = []
+	tgradrels = []
+	for subpostnm in posteriors[1:10]
 		ii += 1
 		# only look at subsampled posteriors
 		if !occursin("_subsampled", subpostnm)
@@ -94,6 +97,7 @@ function main()
 		if (abserr > 1e-6 || relerr > 1e-6)
 			println(postnm*": ll = $(round(ll,sigdigits=2)) lls = $(round(lls,sigdigits=2)) var = $(round(ll2s-lls^2,sigdigits=2)) t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abserr,sigdigits=2)) relerr = $(round(relerr,sigdigits=2))")
 		end
+		push!(trels, t_sub/t_full)
 
 		t_full = time_ns()
 		_, gll = LogDensityProblems.logdensity_and_gradient(prb, z1)
@@ -115,7 +119,13 @@ function main()
 		if (abserr > 1e-6 || relerr > 1e-6)
 			println(postnm*": gll = $(round.(gll[idcs],sigdigits=2)) glls = $(round.(glls[idcs],sigdigits=2)) var = $(round(gll2s-sum(glls.^2),sigdigits=2))  t_sub/t_full = $(round(t_sub/t_full,sigdigits=2)) err = $(round(abserr,sigdigits=2)) relerr = $(round(relerr,sigdigits=2))")
 		end
+		push!(tgradrels, t_sub/t_full)
 	end
+
+	p1 = histogram(trels, xscale=:log10, bins=30, xlabel="Relative Time Increase when Subsampling", ylabel="Count", legend=false, title="Relative Time (sum log p_i) / log p")
+	p2 = histogram(tgradrels, xscale=:log10, bins=30, xlabel="Relative Time Increase when Subsampling", ylabel="Count", legend=false, title ="Relative Time (sum ∇log p_i) / ∇log p")
+	savefig(p1, "reltime_logp.png", dpi=300)
+	savefig(p2, "reltime_gradlogp.png", dpi=300)
 end
 
 main()
