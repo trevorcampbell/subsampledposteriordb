@@ -19,7 +19,8 @@ provides an unbiased estimate of
 lp = logp(full_posterior, x)
 ```
 
-**Important:** The implementation of a single call to `logp(x,i)` is in some cases just as slow as `logp(x)`.
+**Important:** Because of how the subsampled posteriors are implemented (see below), 
+`logp(x)` is sometimes 10-10,000x faster than adding up all the individual `logp(x,i)` terms.
 Do not use these posteriors to compare subsampled methods to full-data methods. This repository is
 meant to be used for comparing different methods on the same posterior, whether subsampled or not.
 
@@ -94,8 +95,7 @@ in `models/` and `posteriors/` to their correct locations in the julia artifacts
 
 ## How It Works
 Since Stan requires real-valued inputs, 
-we add one parameter `SUBIDX` to each model, and loop over indices until the value of `SUBIDX` matches that index
-(and this is why the implementation is generally fairly inefficient).
+we add one parameter `SUBIDX` to each model, and loop over indices until the value of `SUBIDX` matches that index.
 For example, for the `earn_height` posterior from PosteriorDB, we create the `earn_height_subsampled` 
 posterior as follows:
 
@@ -134,6 +134,13 @@ model {
 	}
 }
 ```
+The loop over `1:N` is why this implementation is very inefficient and should not be used to compare subsampling to full-data methods.
+The two figures below show the histogram of relative time to compute `logp(x)` (full data, original posterior) versus summing
+over all the individual `logp(x,i)` terms (one pass over the whole dataset via subsampling):
+
+<img width="600" height="400" alt="reltime_logp" src="https://github.com/user-attachments/assets/6379cc54-23b5-4105-87be-666e9b8660bb" />
+
+<img width="600" height="400" alt="reltime_gradlogp" src="https://github.com/user-attachments/assets/983d99ab-e63d-4fe4-be93-def767a0d8c8" />
 
 The maximum subsampling index ("dataset size") is found in each model's information JSON file in the `subsample_size` entry.
 For example, for the `earn_height_subsampled` model, the `subsample_size` is `N`, one of the variables from the model code.
