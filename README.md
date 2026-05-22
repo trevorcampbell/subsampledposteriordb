@@ -139,7 +139,6 @@ The two figures below show the histogram of relative time to compute `logp(x)` (
 over all the individual `logp(x,i)` terms (one pass over the whole dataset via subsampling):
 
 <img width="600" height="400" alt="reltime_logp" src="https://github.com/user-attachments/assets/6379cc54-23b5-4105-87be-666e9b8660bb" />
-
 <img width="600" height="400" alt="reltime_gradlogp" src="https://github.com/user-attachments/assets/983d99ab-e63d-4fe4-be93-def767a0d8c8" />
 
 The maximum subsampling index ("dataset size") is found in each model's information JSON file in the `subsample_size` entry.
