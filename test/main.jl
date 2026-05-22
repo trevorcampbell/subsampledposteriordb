@@ -54,7 +54,7 @@ function main()
 	ii = 0
 	trels = []
 	tgradrels = []
-	for subpostnm in posteriors[1:10]
+	for subpostnm in posteriors
 		ii += 1
 		# only look at subsampled posteriors
 		if !occursin("_subsampled", subpostnm)
@@ -122,10 +122,10 @@ function main()
 		push!(tgradrels, t_sub/t_full)
 	end
 
-	p1 = histogram(trels, xscale=:log10, bins=30, xlabel="Relative Time Increase when Subsampling", ylabel="Count", legend=false, title="Relative Time (sum log p_i) / log p")
-	p2 = histogram(tgradrels, xscale=:log10, bins=30, xlabel="Relative Time Increase when Subsampling", ylabel="Count", legend=false, title ="Relative Time (sum ∇log p_i) / ∇log p")
-	savefig(p1, "reltime_logp.png", dpi=300)
-	savefig(p2, "reltime_gradlogp.png", dpi=300)
+	p1 = histogram(log10.(trels), bins=30, xlabel="Log₁₀ Relative Time Increase when Subsampling", ylabel="Count", legend=false, title="Relative Time (sum log p_i) / log p")
+	p2 = histogram(log10.(tgradrels), bins=30, xlabel="Log₁₀ Relative Time Increase when Subsampling", ylabel="Count", legend=false, title ="Relative Time (sum ∇log p_i) / ∇log p")
+	savefig(p1, "reltime_logp.png")
+	savefig(p2, "reltime_gradlogp.png")
 end
 
 main()
