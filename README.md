@@ -4,37 +4,47 @@ This repository contains data-subsampled versions of most of the posteriors in P
 These enable sub-indexing of posterior log densities. More specifically, if the standard
 log density function for a posterior named `posterior_name` from PosteriorDB is `logp(x)`,
 this repository provides a posterior named `posterior_name_subsampled` 
-with log density `logp(x,i)` where `logp(x) = logp(x,1) + logp(x,2) + ... + logp(x,N)`
-(and a method to compute the appropriate "data size" `N` for each posterior).
+with log density `logp(x,i)` where `logp(x) = logp(x,1) + logp(x,2) + ... + logp(x,N)`,
+as well as a method to compute the appropriate "data size" `N` for each posterior.
 
-**Important: The implementation of `logp(x,i)` is in some cases just as slow as `logp(x)`.
+**Important:** The implementation of `logp(x,i)` is in some cases just as slow as `logp(x)`.
 Do not use these posteriors to compare subsampled methods to full-data methods. This repository is
-meant to be used for comparing different methods on the same posterior, whether subsampled or not.**
+meant to be used for comparing different methods on the same posterior, whether subsampled or not.
 
 ## Basic Usage
 
-You can use these from any interface to Stan;
-for example, from Julia one can run the following code to work with the `dogs-dogs` posterior
-and its subsampled version, `dogs-dogs_subsampled`:
-
+You can use these posteriors from any interface to Stan.
+For example, from Julia, first make sure there is a directory named `stan/` in the working directory to hold compiled models.
+Then to work with the full-data `dogs-dogs` posterior one could run
 ```
+using StanLogDensityProblems, PosteriorDB, LogDensityProblems
+
+# initialize the DB
+pdb = PosteriorDB.database()
+
+# compile the model if not already compiled, otherwise just load it
 post = PosteriorDB.posterior(pdb, "dogs-dogs")
 prob = StanProblem(post, "stan")
-postsub = PosteriorDB.posterior(pdb, subpostnm)
-prbsub = StanProblem(postsub, "stan")
-subsample_sz = get_subsample_size(pdb, postsub)
-d = LogDensityProblems.dimension(prb)
+
+# compute the log density and gradient at a random point z
+d = LogDensityProblems.dimension(prob)
+z = randn(d)
+LogDensityProblems.logdensity(prob, z)
+LogDensityProblems.logdensity_and_gradient(prob, z)
 ```
+and one could run very similar code to work with its subsampled version, `dogs-dogs_subsampled`:
+```
+postsub = PosteriorDB.posterior(pdb, "dogs-dogs_subsampled")
+probsub = StanProblem(postsub, "stan")
+subsample_sz = get_subsample_size(pdb, postsub)
 
+# data index to use
+i = rand(1:subsample_sz)
 
-but the instructions in this repository will pertain specifically to using them from 
-the Julia interface
-
-of Stan's
-many interany interface to 
-Stan, from any language,
-but the instructions in this repost
-
+# append i to the end of the original state to create a valid state for the subsampled model
+LogDensityProblems.logdensity(probsub, vcat(z,i))
+LogDensityProblems.logdensity_and_gradient(probsub, vcat(z,i))
+```
 
 ## Installation
 
