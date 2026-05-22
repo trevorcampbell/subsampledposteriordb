@@ -64,7 +64,7 @@ LogDensityProblems.logdensity_and_gradient(probsub, vcat(z,i))
 
 ## Installation
 
-These instructions are provided for a computer running linux; if you're on Mac or 
+These instructions are provided for a computer running Linux; if you're on Mac or 
 Windows you'll need to adjust some of the steps below but it should all still be doable.
 
 First, make sure `julia` is installed. If you don't yet have `PosteriorDB.jl` installed, open a REPL and run
