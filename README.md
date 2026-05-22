@@ -30,7 +30,7 @@ a single full-data posterior.
 
 You can use these posteriors from any interface to Stan + PosteriorDB.
 For example, from Julia, first make sure there is a directory named `stan/` in the working directory to hold compiled models.
-Then to work with the full-data `dogs-dogs` posterior one could run
+Then to work with the subsampled `dogs-dogs` posterior one could run
 ```
 using StanLogDensityProblems, PosteriorDB, LogDensityProblems
 
@@ -38,28 +38,22 @@ using StanLogDensityProblems, PosteriorDB, LogDensityProblems
 pdb = PosteriorDB.database()
 
 # compile the model if not already compiled, otherwise just load it
-post = PosteriorDB.posterior(pdb, "dogs-dogs")
+post = PosteriorDB.posterior(pdb, "dogs-dogs_subsampled")
 prob = StanProblem(post, "stan")
 
-# compute the log density and gradient at a random point z
-d = LogDensityProblems.dimension(prob)
-z = randn(d)
-LogDensityProblems.logdensity(prob, z)
-LogDensityProblems.logdensity_and_gradient(prob, z)
-```
-and one could run very similar code to work with its subsampled version, `dogs-dogs_subsampled`,
-where the `get_subsample_size` function in `test/main.jl` is used to get the total "data size" for this posterior:
-```
-postsub = PosteriorDB.posterior(pdb, "dogs-dogs_subsampled")
-probsub = StanProblem(postsub, "stan")
-subsample_sz = get_subsample_size(pdb, postsub)
+# compute the maximum subsample index (get_subsample_size is from test/main.jl)
+subsample_sz = get_subsample_size(pdb, post)
 
 # data index to use
 i = rand(1:subsample_sz)
 
-# append i to the end of the original state to create a valid state for the subsampled model
-LogDensityProblems.logdensity(probsub, vcat(z,i))
-LogDensityProblems.logdensity_and_gradient(probsub, vcat(z,i))
+# compute the log density and gradient at a random point z
+# the last coordinate of the parameter vector for a subsampled model is the data index
+d = LogDensityProblems.dimension(prob)
+z = randn(d)
+z[end] = i
+LogDensityProblems.logdensity(prob, z)
+LogDensityProblems.logdensity_and_gradient(prob, z)
 ```
 
 ## Installation
